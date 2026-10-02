@@ -1,0 +1,292 @@
+{
+ "crudo": {
+  "dpa_nubesegura_completo.txt": {
+   "gold": {
+    "objeto_duracion": "cumple",
+    "instrucciones": "cumple",
+    "confidencialidad": "cumple",
+    "seguridad": "cumple",
+    "subencargados": "cumple",
+    "derechos_titulares": "cumple",
+    "notificacion_brechas": "cumple",
+    "supresion_devolucion": "cumple",
+    "auditorias": "cumple",
+    "transferencias": "cumple",
+    "limitacion_finalidad": "cumple",
+    "solicitudes_autoridad": "cumple",
+    "eipd_asistencia": "cumple"
+   },
+   "gold_pct": 100.0,
+   "corridas": [
+    {
+     "latencia_s": 40.64009542099666,
+     "cumplimiento": 93.54838709677419,
+     "estados": {
+      "objeto_duracion": "parcial",
+      "instrucciones": "cumple",
+      "confidencialidad": "cumple",
+      "seguridad": "cumple",
+      "subencargados": "cumple",
+      "derechos_titulares": "cumple",
+      "notificacion_brechas": "cumple",
+      "supresion_devolucion": "cumple",
+      "auditorias": "cumple",
+      "transferencias": "cumple",
+      "limitacion_finalidad": "cumple",
+      "solicitudes_autoridad": "cumple",
+      "eipd_asistencia": "parcial"
+     },
+     "con_evidencia": 13,
+     "verificadas": 12
+    },
+    {
+     "latencia_s": 42.444580512004904,
+     "cumplimiento": 67.74193548387096,
+     "estados": {
+      "objeto_duracion": "parcial",
+      "instrucciones": "cumple",
+      "confidencialidad": "cumple",
+      "seguridad": "parcial",
+      "subencargados": "parcial",
+      "derechos_titulares": "cumple",
+      "notificacion_brechas": "parcial",
+      "supresion_devolucion": "parcial",
+      "auditorias": "parcial",
+      "transferencias": "parcial",
+      "limitacion_finalidad": "cumple",
+      "solicitudes_autoridad": "cumple",
+      "eipd_asistencia": "parcial"
+     },
+     "con_evidencia": 13,
+     "verificadas": 6
+    },
+    {
+     "latencia_s": 28.695454618995427,
+     "cumplimiento": 100.0,
+     "estados": {
+      "objeto_duracion": "cumple",
+      "instrucciones": "cumple",
+      "confidencialidad": "cumple",
+      "seguridad": "cumple",
+      "subencargados": "cumple",
+      "derechos_titulares": "cumple",
+      "notificacion_brechas": "cumple",
+      "supresion_devolucion": "cumple",
+      "auditorias": "cumple",
+      "transferencias": "cumple",
+      "limitacion_finalidad": "cumple",
+      "solicitudes_autoridad": "cumple",
+      "eipd_asistencia": "cumple"
+     },
+     "con_evidencia": 13,
+     "verificadas": 13
+    }
+   ]
+  },
+  "dpa_pagofacil_intermedio.txt": {
+   "gold": {
+    "objeto_duracion": "cumple",
+    "instrucciones": "parcial",
+    "confidencialidad": "cumple",
+    "seguridad": "cumple",
+    "subencargados": "parcial",
+    "derechos_titulares": "falta",
+    "notificacion_brechas": "cumple",
+    "supresion_devolucion": "parcial",
+    "auditorias": "falta",
+    "transferencias": "falta",
+    "limitacion_finalidad": "cumple",
+    "solicitudes_autoridad": "falta",
+    "eipd_asistencia": "falta"
+   },
+   "gold_pct": 59.67741935483871,
+   "corridas": [
+    {
+     "latencia_s": 26.606239913002355,
+     "cumplimiento": 54.83870967741935,
+     "estados": {
+      "objeto_duracion": "cumple",
+      "instrucciones": "parcial",
+      "confidencialidad": "cumple",
+      "seguridad": "cumple",
+      "subencargados": "parcial",
+      "derechos_titulares": "falta",
+      "notificacion_brechas": "parcial",
+      "supresion_devolucion": "parcial",
+      "auditorias": "falta",
+      "transferencias": "falta",
+      "limitacion_finalidad": "cumple",
+      "solicitudes_autoridad": "falta",
+      "eipd_asistencia": "falta"
+     },
+     "con_evidencia": 8,
+     "verificadas": 8
+    },
+    {
+     "latencia_s": 29.515378065989353,
+     "cumplimiento": 54.83870967741935,
+     "estados": {
+      "objeto_duracion": "cumple",
+      "instrucciones": "parcial",
+      "confidencialidad": "cumple",
+      "seguridad": "cumple",
+      "subencargados": "parcial",
+      "derechos_titulares": "falta",
+      "notificacion_brechas": "parcial",
+      "supresion_devolucion": "parcial",
+      "auditorias": "falta",
+      "transferencias": "falta",
+      "limitacion_finalidad": "cumple",
+      "solicitudes_autoridad": "falta",
+      "eipd_asistencia": "falta"
+     },
+     "con_evidencia": 8,
+     "verificadas": 8
+    },
+    {
+     "latencia_s": 23.24833445000695,
+     "cumplimiento": 54.83870967741935,
+     "estados": {
+      "objeto_duracion": "cumple",
+      "instrucciones": "parcial",
+      "confidencialidad": "cumple",
+      "seguridad": "cumple",
+      "subencargados": "parcial",
+      "derechos_titulares": "falta",
+      "notificacion_brechas": "parcial",
+      "supresion_devolucion": "parcial",
+      "auditorias": "falta",
+      "transferencias": "falta",
+      "limitacion_finalidad": "cumple",
+      "solicitudes_autoridad": "falta",
+      "eipd_asistencia": "falta"
+     },
+     "con_evidencia": 8,
+     "verificadas": 8
+    }
+   ]
+  },
+  "dpa_mailrapido_deficiente.txt": {
+   "gold": {
+    "objeto_duracion": "parcial",
+    "instrucciones": "falta",
+    "confidencialidad": "parcial",
+    "seguridad": "parcial",
+    "subencargados": "falta",
+    "derechos_titulares": "falta",
+    "notificacion_brechas": "parcial",
+    "supresion_devolucion": "falta",
+    "auditorias": "falta",
+    "transferencias": "falta",
+    "limitacion_finalidad": "falta",
+    "solicitudes_autoridad": "falta",
+    "eipd_asistencia": "falta"
+   },
+   "gold_pct": 17.741935483870968,
+   "corridas": [
+    {
+     "latencia_s": 30.56657847399765,
+     "cumplimiento": 20.967741935483872,
+     "estados": {
+      "objeto_duracion": "parcial",
+      "instrucciones": "falta",
+      "confidencialidad": "parcial",
+      "seguridad": "parcial",
+      "subencargados": "falta",
+      "derechos_titulares": "falta",
+      "notificacion_brechas": "parcial",
+      "supresion_devolucion": "falta",
+      "auditorias": "falta",
+      "transferencias": "parcial",
+      "limitacion_finalidad": "falta",
+      "solicitudes_autoridad": "falta",
+      "eipd_asistencia": "falta"
+     },
+     "con_evidencia": 8,
+     "verificadas": 8
+    },
+    {
+     "latencia_s": 31.305553892991156,
+     "cumplimiento": 25.806451612903224,
+     "estados": {
+      "objeto_duracion": "cumple",
+      "instrucciones": "falta",
+      "confidencialidad": "parcial",
+      "seguridad": "parcial",
+      "subencargados": "falta",
+      "derechos_titulares": "falta",
+      "notificacion_brechas": "parcial",
+      "supresion_devolucion": "falta",
+      "auditorias": "falta",
+      "transferencias": "parcial",
+      "limitacion_finalidad": "falta",
+      "solicitudes_autoridad": "falta",
+      "eipd_asistencia": "falta"
+     },
+     "con_evidencia": 8,
+     "verificadas": 8
+    },
+    {
+     "latencia_s": 33.535267886996735,
+     "cumplimiento": 25.806451612903224,
+     "estados": {
+      "objeto_duracion": "cumple",
+      "instrucciones": "falta",
+      "confidencialidad": "parcial",
+      "seguridad": "parcial",
+      "subencargados": "falta",
+      "derechos_titulares": "falta",
+      "notificacion_brechas": "parcial",
+      "supresion_devolucion": "falta",
+      "auditorias": "falta",
+      "transferencias": "parcial",
+      "limitacion_finalidad": "falta",
+      "solicitudes_autoridad": "falta",
+      "eipd_asistencia": "falta"
+     },
+     "con_evidencia": 8,
+     "verificadas": 8
+    }
+   ]
+  }
+ },
+ "resumen": {
+  "exactitud": 0.8461538461538461,
+  "exactitud_binaria": 0.8717948717948718,
+  "estabilidad": 0.7692307692307693,
+  "mae_pct": 8.06451612903226,
+  "latencia_s": 31.839720359442353,
+  "citas_verificadas": 0.9080459770114943,
+  "confusion": {
+   "cumple->cumple": 41,
+   "cumple->parcial": 13,
+   "falta->falta": 39,
+   "falta->parcial": 3,
+   "parcial->cumple": 2,
+   "parcial->parcial": 19
+  },
+  "por_contrato": {
+   "dpa_nubesegura_completo.txt": {
+    "gold_pct": 100.0,
+    "media_pct": 87.09677419354838,
+    "min_pct": 67.74193548387096,
+    "max_pct": 100.0,
+    "exactitud": 0.7435897435897436
+   },
+   "dpa_pagofacil_intermedio.txt": {
+    "gold_pct": 59.67741935483871,
+    "media_pct": 54.83870967741935,
+    "min_pct": 54.83870967741935,
+    "max_pct": 54.83870967741935,
+    "exactitud": 0.9230769230769231
+   },
+   "dpa_mailrapido_deficiente.txt": {
+    "gold_pct": 17.741935483870968,
+    "media_pct": 24.193548387096772,
+    "min_pct": 20.967741935483872,
+    "max_pct": 25.806451612903224,
+    "exactitud": 0.8717948717948718
+   }
+  }
+ }
+}

@@ -1,0 +1,29 @@
+CONTRATO DE PRESTACIÓN DE SERVICIOS DE PASARELA DE PAGOS Y ENCARGO DE TRATAMIENTO
+
+Entre UNIVERSIDAD ANDINA DEL SUR ("la Universidad") y PAGOFÁCIL PERÚ S.A., con RUC 20555111222 ("el Proveedor").
+
+PRIMERA. Objeto
+El Proveedor operará la pasarela de pagos de pensiones de los estudiantes. Para ello tratará, por cuenta de la Universidad, los nombres, el código de estudiante, el DNI y los datos de la tarjeta de pago de los estudiantes y apoderados, con la única finalidad de procesar los cobros. El contrato rige desde el 1 de noviembre de 2024 por dos años.
+
+SEGUNDA. Instrucciones
+El Proveedor tratará los datos personales únicamente siguiendo instrucciones documentadas de la Universidad.
+
+TERCERA. Uso de los datos
+El Proveedor no utilizará los datos para fines propios ni los comunicará a terceros, ni siquiera para su conservación.
+
+CUARTA. Confidencialidad
+El personal del Proveedor que acceda a los datos personales ha suscrito acuerdos de confidencialidad que subsisten al término de su vínculo.
+
+QUINTA. Seguridad
+El Proveedor mantiene la certificación PCI DSS y aplica cifrado de extremo a extremo de los datos de tarjeta, tokenización, segmentación de red y monitoreo continuo, de acuerdo con la Directiva de Seguridad de la Información de la Autoridad Nacional de Protección de Datos Personales.
+
+SEXTA. Subcontratación
+La Universidad autoriza de forma general al Proveedor a subcontratar los servicios de procesamiento con entidades financieras de su elección.
+
+SÉPTIMA. Incidentes
+El Proveedor notificará a la Universidad, sin dilación indebida, cualquier incidente de seguridad que afecte a los datos personales.
+
+OCTAVA. Término
+Al finalizar el contrato, el Proveedor devolverá a la Universidad las bases de datos de pagos.
+
+Firmado en Arequipa, el 1 de noviembre de 2024.

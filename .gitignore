@@ -1,0 +1,15 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+data/terceros.db
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.nav
+*.snm
+*.toc
+*.vrb

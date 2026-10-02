@@ -1,0 +1,1074 @@
+{
+ "general": {
+  "hit": 1,
+  "mrr": 0.7717948717948718,
+  "precision": 0.6538461538461539,
+  "cobertura_peru": 0.15384615384615385,
+  "latencia_s": 0.07885400846134871,
+  "detalle": [
+   {
+    "clausula": "objeto_duracion",
+    "recuperados": [
+     {
+      "fuente": "RGPD",
+      "articulo": "",
+      "pagina": 16,
+      "relevante": false
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 35,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 36,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 39,
+      "relevante": true
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 10",
+      "pagina": 1,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "28",
+      "pagina": 49,
+      "relevante": true
+     }
+    ]
+   },
+   {
+    "clausula": "instrucciones",
+    "recuperados": [
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 41,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 40,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "28",
+      "pagina": 49,
+      "relevante": true
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 7",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 43,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 41,
+      "relevante": true
+     }
+    ]
+   },
+   {
+    "clausula": "confidencialidad",
+    "recuperados": [
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 41,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "",
+      "pagina": 6,
+      "relevante": false
+     },
+     {
+      "fuente": "LPDP",
+      "articulo": "36",
+      "pagina": 12,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "33",
+      "pagina": 52,
+      "relevante": false
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 34,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "22",
+      "pagina": 17,
+      "relevante": false
+     }
+    ]
+   },
+   {
+    "clausula": "seguridad",
+    "recuperados": [
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 10",
+      "pagina": 1,
+      "relevante": false
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 7",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "34",
+      "pagina": 53,
+      "relevante": false
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 4,
+      "relevante": false
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 55,
+      "relevante": false
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 44,
+      "relevante": true
+     }
+    ]
+   },
+   {
+    "clausula": "subencargados",
+    "recuperados": [
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 7",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 7",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 42,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "28",
+      "pagina": 49,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "32",
+      "pagina": 21,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 42,
+      "relevante": true
+     }
+    ]
+   },
+   {
+    "clausula": "derechos_titulares",
+    "recuperados": [
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 43,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "28",
+      "pagina": 49,
+      "relevante": true
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 8",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 42,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 42,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "28",
+      "pagina": 49,
+      "relevante": true
+     }
+    ]
+   },
+   {
+    "clausula": "notificacion_brechas",
+    "recuperados": [
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 9",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 9",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 18,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "33",
+      "pagina": 52,
+      "relevante": true
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 9",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "34",
+      "pagina": 52,
+      "relevante": false
+     }
+    ]
+   },
+   {
+    "clausula": "supresion_devolucion",
+    "recuperados": [
+     {
+      "fuente": "RLPDP",
+      "articulo": "31",
+      "pagina": 20,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 45,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "30",
+      "pagina": 20,
+      "relevante": true
+     },
+     {
+      "fuente": "LPDP",
+      "articulo": "15",
+      "pagina": 5,
+      "relevante": false
+     },
+     {
+      "fuente": "LPDP",
+      "articulo": "30",
+      "pagina": 10,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 31,
+      "relevante": false
+     }
+    ]
+   },
+   {
+    "clausula": "auditorias",
+    "recuperados": [
+     {
+      "fuente": "RGPD",
+      "articulo": "28",
+      "pagina": 49,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 45,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 45,
+      "relevante": true
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 7",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 46,
+      "relevante": true
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 7",
+      "pagina": 1,
+      "relevante": true
+     }
+    ]
+   },
+   {
+    "clausula": "transferencias",
+    "recuperados": [
+     {
+      "fuente": "RGPD",
+      "articulo": "30",
+      "pagina": 51,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "",
+      "pagina": 19,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "45",
+      "pagina": 60,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "",
+      "pagina": 19,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "40",
+      "pagina": 57,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "50",
+      "pagina": 65,
+      "relevante": false
+     }
+    ]
+   },
+   {
+    "clausula": "limitacion_finalidad",
+    "recuperados": [
+     {
+      "fuente": "RGPD",
+      "articulo": "30",
+      "pagina": 51,
+      "relevante": false
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 7",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "67",
+      "pagina": 35,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "45",
+      "pagina": 60,
+      "relevante": false
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "III",
+      "pagina": 5,
+      "relevante": false
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 41,
+      "relevante": true
+     }
+    ]
+   },
+   {
+    "clausula": "solicitudes_autoridad",
+    "recuperados": [
+     {
+      "fuente": "RGPD",
+      "articulo": "",
+      "pagina": 17,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "33",
+      "pagina": 52,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "19",
+      "pagina": 45,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "38",
+      "pagina": 55,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "28",
+      "pagina": 49,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 44,
+      "relevante": true
+     }
+    ]
+   },
+   {
+    "clausula": "eipd_asistencia",
+    "recuperados": [
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 8",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "36",
+      "pagina": 54,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 35,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 45,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 44,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "28",
+      "pagina": 49,
+      "relevante": true
+     }
+    ]
+   }
+  ]
+ },
+ "mixta": {
+  "hit": 0.9230769230769231,
+  "mrr": 0.7333333333333333,
+  "precision": 0.5384615384615384,
+  "cobertura_peru": 0.6923076923076923,
+  "latencia_s": 0.06401386484727621,
+  "detalle": [
+   {
+    "clausula": "objeto_duracion",
+    "recuperados": [
+     {
+      "fuente": "LPDP",
+      "articulo": "30",
+      "pagina": 10,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "86",
+      "pagina": 41,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "",
+      "pagina": 16,
+      "relevante": false
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 35,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 36,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 39,
+      "relevante": true
+     }
+    ]
+   },
+   {
+    "clausula": "instrucciones",
+    "recuperados": [
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 41,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 40,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "30",
+      "pagina": 20,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "28",
+      "pagina": 49,
+      "relevante": true
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 7",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "31",
+      "pagina": 20,
+      "relevante": false
+     }
+    ]
+   },
+   {
+    "clausula": "confidencialidad",
+    "recuperados": [
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 41,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "67",
+      "pagina": 35,
+      "relevante": false
+     },
+     {
+      "fuente": "LPDP",
+      "articulo": "17",
+      "pagina": 7,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "",
+      "pagina": 6,
+      "relevante": false
+     },
+     {
+      "fuente": "LPDP",
+      "articulo": "36",
+      "pagina": 12,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "33",
+      "pagina": 52,
+      "relevante": false
+     }
+    ]
+   },
+   {
+    "clausula": "seguridad",
+    "recuperados": [
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 10",
+      "pagina": 1,
+      "relevante": false
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 7",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "34",
+      "pagina": 53,
+      "relevante": false
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "31",
+      "pagina": 20,
+      "relevante": false
+     },
+     {
+      "fuente": "LPDP",
+      "articulo": "9",
+      "pagina": 3,
+      "relevante": false
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 4,
+      "relevante": false
+     }
+    ]
+   },
+   {
+    "clausula": "subencargados",
+    "recuperados": [
+     {
+      "fuente": "RLPDP",
+      "articulo": "32",
+      "pagina": 21,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "34",
+      "pagina": 21,
+      "relevante": false
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 7",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 7",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 42,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "28",
+      "pagina": 49,
+      "relevante": true
+     }
+    ]
+   },
+   {
+    "clausula": "derechos_titulares",
+    "recuperados": [
+     {
+      "fuente": "RLPDP",
+      "articulo": "61",
+      "pagina": 33,
+      "relevante": false
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "87",
+      "pagina": 41,
+      "relevante": false
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 43,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "28",
+      "pagina": 49,
+      "relevante": true
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 8",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 42,
+      "relevante": true
+     }
+    ]
+   },
+   {
+    "clausula": "notificacion_brechas",
+    "recuperados": [
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 9",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 9",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 18,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "33",
+      "pagina": 52,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "35",
+      "pagina": 22,
+      "relevante": false
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "34",
+      "pagina": 22,
+      "relevante": true
+     }
+    ]
+   },
+   {
+    "clausula": "supresion_devolucion",
+    "recuperados": [
+     {
+      "fuente": "RLPDP",
+      "articulo": "31",
+      "pagina": 20,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "29",
+      "pagina": 19,
+      "relevante": false
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 45,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "30",
+      "pagina": 20,
+      "relevante": true
+     },
+     {
+      "fuente": "LPDP",
+      "articulo": "15",
+      "pagina": 5,
+      "relevante": false
+     }
+    ]
+   },
+   {
+    "clausula": "auditorias",
+    "recuperados": [
+     {
+      "fuente": "RGPD",
+      "articulo": "28",
+      "pagina": 49,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 45,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 45,
+      "relevante": true
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 7",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "30",
+      "pagina": 20,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "29",
+      "pagina": 19,
+      "relevante": false
+     }
+    ]
+   },
+   {
+    "clausula": "transferencias",
+    "recuperados": [
+     {
+      "fuente": "RLPDP",
+      "articulo": "III",
+      "pagina": 5,
+      "relevante": false
+     },
+     {
+      "fuente": "LPDP",
+      "articulo": "2",
+      "pagina": 2,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "30",
+      "pagina": 51,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "",
+      "pagina": 19,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "45",
+      "pagina": 60,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "",
+      "pagina": 19,
+      "relevante": false
+     }
+    ]
+   },
+   {
+    "clausula": "limitacion_finalidad",
+    "recuperados": [
+     {
+      "fuente": "RGPD",
+      "articulo": "30",
+      "pagina": 51,
+      "relevante": false
+     },
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 7",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "67",
+      "pagina": 35,
+      "relevante": false
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "31",
+      "pagina": 20,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "45",
+      "pagina": 60,
+      "relevante": false
+     }
+    ]
+   },
+   {
+    "clausula": "solicitudes_autoridad",
+    "recuperados": [
+     {
+      "fuente": "RGPD",
+      "articulo": "",
+      "pagina": 17,
+      "relevante": false
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "31",
+      "pagina": 20,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "33",
+      "pagina": 52,
+      "relevante": false
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "56",
+      "pagina": 30,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "19",
+      "pagina": 45,
+      "relevante": false
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "38",
+      "pagina": 55,
+      "relevante": false
+     }
+    ]
+   },
+   {
+    "clausula": "eipd_asistencia",
+    "recuperados": [
+     {
+      "fuente": "CCT-2021/915",
+      "articulo": "Cláusula 8",
+      "pagina": 1,
+      "relevante": true
+     },
+     {
+      "fuente": "RGPD",
+      "articulo": "36",
+      "pagina": 54,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 35,
+      "relevante": true
+     },
+     {
+      "fuente": "EDPB-07/2020",
+      "articulo": "",
+      "pagina": 45,
+      "relevante": true
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "41",
+      "pagina": 25,
+      "relevante": false
+     },
+     {
+      "fuente": "RLPDP",
+      "articulo": "40",
+      "pagina": 24,
+      "relevante": true
+     }
+    ]
+   }
+  ]
+ }
+}
