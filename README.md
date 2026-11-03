@@ -22,7 +22,7 @@ exigibles, evalúa su riesgo, controla vencimientos y subencargados y somete cad
 (esquema portable a PostgreSQL) · MCP.
 
 **Entrega del TIF** (2.ª entrega): [hoja única](docs/entrega/hoja_entrega.pdf) ·
-[guion de demo de 15 min](docs/entrega/guion_demo.html) · [informe IEEE](docs/informe/informe.pdf) ·
+[guion de demo de 15 min](docs/entrega/guion_demo.html) · [**guía del equipo**](docs/entrega/GUIA_EQUIPO.md) · [informe IEEE](docs/informe/informe.pdf) ·
 [diapositivas](docs/diapos/diapos.pdf) · [skills](skills/) · [asistente](asistente/).
 
 ## Arquitectura
