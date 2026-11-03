@@ -18,7 +18,12 @@ exigibles, evalúa su riesgo, controla vencimientos y subencargados y somete cad
 | Puerta HITL | Asesoría Legal aprueba o rechaza cada DPA nuevo y cada cambio de subencargado |
 
 **Stack:** Python · Flask · HTML/CSS/JavaScript puro · FAISS · embeddings locales con Ollama
-(`nomic-embed-text`) · LLM Gemini 2.5 Flash · SQLite (esquema portable a PostgreSQL) · MCP.
+(`nomic-embed-text`) · LLM intercambiable (OpenRouter con Gemini 2.5 Flash por defecto) · SQLite
+(esquema portable a PostgreSQL) · MCP.
+
+**Entrega del TIF** (2.ª entrega): [hoja única](docs/entrega/hoja_entrega.pdf) ·
+[guion de demo de 15 min](docs/entrega/guion_demo.html) · [informe IEEE](docs/informe/informe.pdf) ·
+[diapositivas](docs/diapos/diapos.pdf) · [skills](skills/) · [asistente](asistente/).
 
 ## Arquitectura
 
@@ -36,7 +41,7 @@ Orquestador / otros agentes ──MCP──► Agente (agente.py)
  Revisor de DPA (revisor.py)   Riesgo (riesgo.py)          Repositorio (db.py)
  13 cláusulas mínimas          probabilidad × impacto       proveedores, dpas,
  RAG FAISS por cláusula        determinista (4×4)           subencargados, aprobaciones,
- 1 llamada Gemini → JSON                                    bitácora de auditoría
+ 1 llamada al LLM → JSON                                    bitácora de auditoría
  verificación literal de citas
           │
           ▼
@@ -49,7 +54,7 @@ Orquestador / otros agentes ──MCP──► Agente (agente.py)
 1. El contrato se extrae (pypdf) y se limpia.
 2. Por cada una de las **13 cláusulas mínimas** (`checklist.py`) se recuperan del índice FAISS
    2 fragmentos de la norma peruana + 4 generales.
-3. Una sola llamada a Gemini devuelve, por cláusula: `cumple | parcial | falta`, la cita literal del
+3. Una sola llamada al LLM devuelve, por cláusula: `cumple | parcial | falta`, la cita literal del
    contrato, los fragmentos que la fundamentan y una recomendación.
 4. **Control anti-alucinación**: cada frase citada como evidencia debe aparecer literal en el
    contrato; si no, un "cumple" baja a "parcial" y se marca para revisión manual.
@@ -82,13 +87,34 @@ edición de 2019 (Anexo F) y hay que verificarla contra la norma antes de citarl
 ```bash
 uv sync
 ollama pull nomic-embed-text          # embeddings locales
-cp .env.example .env                  # coloca tu GOOGLE_API_KEY (https://aistudio.google.com/apikey)
+cp .env.example .env                  # OPENROUTER_API_KEY (y GOOGLE_API_KEY de respaldo)
+uv run agente-terceros diagnostico    # Ollama, índice, clave y saldo: todo debe salir OK
 uv run agente-terceros ingest         # (opcional) reconstruye data/index; ya viene construido
-uv run agente-terceros demo           # 4 proveedores ficticios; revisa 2 DPAs con Gemini
+uv run agente-terceros demo           # 4 proveedores ficticios; revisa 2 DPAs con el LLM
 uv run agente-terceros web            # http://localhost:5000
+uv run agente-terceros revisar contrato.pdf        # skill revisar-dpa: informe .md
+uv run agente-terceros orquestar brecha --categoria salud   # flujo multiagente por MCP
+uv run agente-terceros orquestar renovaciones
 uv run agente-terceros mcp            # servidor MCP por stdio para el orquestador
-uv run pytest                         # 59 pruebas, no necesitan red ni API
+uv run pytest                         # pruebas, no necesitan red ni API
 ```
+
+### Proveedor de IA
+
+| `TERCEROS_LLM_PROVIDER` | Clave | Modelo por defecto |
+|---|---|---|
+| `openrouter` (por defecto) | `OPENROUTER_API_KEY` | `google/gemini-2.5-flash` |
+| `gemini` | `GOOGLE_API_KEY` | `gemini-2.5-flash` |
+| `openai` (o compatible con `TERCEROS_LLM_BASE_URL`) | `OPENAI_API_KEY` | `gpt-4o-mini` |
+| `anthropic` | `ANTHROPIC_API_KEY` | `claude-sonnet-5` |
+| `ollama` (local, sin internet) | — | `qwen3:4b` |
+
+- **Respaldo automático**: si el principal falla (sin saldo, 429, red), se prueba `TERCEROS_LLM_RESPALDO`
+  (por defecto `gemini,ollama`). El pie de la interfaz y `/api/estado` muestran qué proveedor respondió.
+- **Gasto controlado**: sin tokens de razonamiento, salida limitada (`max_tokens`), costo registrado
+  en `data/gasto_ia.json` y caché de respuestas válidas en `data/cache_ia/`, así que repetir una
+  revisión no vuelve a costar. Una revisión cuesta unos US$ 0,01 con Gemini 2.5 Flash por OpenRouter.
+- La cuenta de OpenRouter necesita **créditos cargados**: el límite de una clave no es saldo.
 
 Para conectar el servidor MCP a un cliente (p. ej. el orquestador o Claude Desktop):
 
@@ -103,7 +129,7 @@ Para conectar el servidor MCP a un cliente (p. ej. el orquestador o Claude Deskt
 |---|---|---|
 | NubeSegura S.A.C. | DPA completo, ISO 27701, subencargado AWS aprobado | Cumplimiento ≈ 98 %, riesgo bajo |
 | MailRápido LLC | Contrato de mailing deficiente (EE. UU.), propone a Mixpanel | ≈ 20 %, riesgo crítico, 2 decisiones HITL pendientes |
-| PagoFácil Perú S.A. | DPA heredado que vence en 25 días | Alerta de renovación |
+| PagoFácil Perú S.A. | DPA heredado que vence 25 días después de cargar la demo | Alerta de renovación |
 | LabClínico Arequipa | Datos de salud sin DPA, 2 incidentes | Riesgo crítico; aparece en el flujo de brecha "salud" |
 
 Los contratos de ejemplo están en `data/ejemplos/` y sirven para probar "Revisar DPA" desde la interfaz.
@@ -122,6 +148,14 @@ Los contratos de ejemplo están en `data/ejemplos/` y sirven para probar "Revisa
 | POST | `/api/consulta` | RAG normativo `{pregunta, jurisdiccion}` |
 | GET | `/api/tools/{list_processors, check_dpa_status/<id>, evaluate_vendor/<id>}` | Herramientas MCP por HTTP |
 | GET | `/api/historial` · `/api/checklist` | Bitácora y catálogo de cláusulas/controles |
+
+## Skills, asistente y orquestación
+
+- [`skills/revisar-dpa/SKILL.md`](skills/revisar-dpa/SKILL.md): activación, requisitos, pasos y ejemplo para revisar un DPA.
+- [`skills/brecha-encargados/SKILL.md`](skills/brecha-encargados/SKILL.md): flujo multiagente ante una brecha.
+- [`asistente/`](asistente/): identidad, instrucciones (prompt de sistema) y conocimiento del "Auditor de Encargados (A7)", más el recorrido de prompt a skill.
+- `src/agente_terceros/orquestacion.py`: flujos `brecha` y `renovaciones`. Otro agente levanta el servidor MCP
+  por stdio y coordina `processors_in_breach`, `check_dpa_status`, `evaluate_vendor` y `list_processors`.
 
 ## Evaluación, informe y diapositivas
 

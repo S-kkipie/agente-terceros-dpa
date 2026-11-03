@@ -118,7 +118,7 @@ Ningún DPA ni cambio de subencargado surte efecto sin la aprobación de Asesor�
 \node[b] (db) at (3.9,-0.2) {SQLite (→ PostgreSQL)\\HITL + bitácora};
 \node[ext] (oll) at (-5.2,-1.9) {Ollama\\nomic-embed-text};
 \node[b] (faiss) at (-1.3,-1.9) {FAISS\\\NumFragmentos{} fragmentos};
-\node[ext] (gem) at (2.6,-1.9) {Gemini 2.5 Flash\\salida JSON};
+\node[ext,minimum width=44mm] (gem) at (3.6,-1.9) {Proveedor de IA\\OpenRouter → Gemini → Ollama};
 \draw[ar] (ui) -- node[et]{REST} (ui |- ag.north);
 \draw[ar] (orq) -- node[et]{MCP} (orq |- ag.north);
 \draw[ar] (rev |- ag.south) -- (rev); \draw[ar] (ag) -- (rie); \draw[ar] (db |- ag.south) -- (db);
@@ -156,8 +156,8 @@ Ningún DPA ni cambio de subencargado surte efecto sin la aprobación de Asesor�
 
 \begin{frame}{Cómo se revisa un DPA}
 \begin{enumerate}
-  \item \textbf{RAG por cláusula}: 6 fragmentos con la consulta general y 2 peruanos con vocabulario LPDP/RLPDP, ordenados por similitud.
-  \item \textbf{Una sola llamada} a Gemini con las cláusulas, los fragmentos numerados y el contrato $\rightarrow$ JSON con estado, cita, fundamentos y recomendación.
+  \item \textbf{RAG por cláusula}: 4 fragmentos con la consulta general y 2 peruanos con vocabulario LPDP/RLPDP, ordenados por similitud.
+  \item \textbf{Una sola llamada} al LLM (Gemini 2.5 Flash vía OpenRouter) con las cláusulas, los fragmentos numerados y el contrato $\rightarrow$ JSON con estado, cita, fundamentos y recomendación.
   \item \textbf{Verificación literal}: cada frase citada debe existir en el contrato; si no, un \emph{cumple} baja a \emph{parcial}.
   \item \textbf{Puntaje ponderado}:
   \[ C = 100\,\frac{\sum_i w_i\,v(e_i)}{\sum_i w_i}, \qquad v(\text{cumple})=1,\; v(\text{parcial})=0{,}5,\; v(\text{falta})=0 \]
@@ -187,6 +187,68 @@ Ningún DPA ni cambio de subencargado surte efecto sin la aprobación de Asesor�
 \textbf{Probabilidad}: +1 por transferencia sin nivel adecuado, subencargados, DPA con $C<70$ o sin revisar, o sin DPA vigente; +1/+2 por incidentes; $-1$ con ISO/IEC 27701.\\[3pt]
 \textbf{Nivel}: bajo, medio, alto o crítico, con revisiones cada 24, 12, 6 o 3 meses.\\[3pt]
 \alert{Determinista}: el auditor puede reproducir el puntaje.
+\end{columns}
+\end{frame}
+
+\begin{frame}{Del prompt a la skill y al asistente}
+\begin{columns}[T]
+\column{.5\textwidth}
+\small
+\textbf{Prompt suelto} ``¿este contrato cumple?'' $\rightarrow$ respuestas variables y sin citas.\\[4pt]
+\textbf{Proceso reutilizable}: 13 cláusulas, RAG, JSON, citas verificadas, puntaje.\\[4pt]
+\textbf{Skills} (\texttt{SKILL.md})
+\begin{itemize}\footnotesize
+  \item \alert{Activación}: descripción con cuándo usarla
+  \item \alert{Estructura}: requisitos, referencias, ejemplo
+  \item \alert{Pasos}: diagnóstico $\rightarrow$ revisar $\rightarrow$ informe $\rightarrow$ aprobación
+\end{itemize}
+\texttt{revisar-dpa} · \texttt{brecha-encargados}
+\column{.46\textwidth}
+\begin{block}{Asistente: Auditor de Encargados (A7)}
+\small
+\textbf{Identidad}: rol, objetivo, controles, límites (no aprueba ni notifica).\\[3pt]
+\textbf{Instrucciones}: prompt de sistema (norma aplicable, citas literales, escalar al DPO).\\[3pt]
+\textbf{Conocimiento}: 5 normas indexadas, catálogo de cláusulas y controles, matriz de riesgo, base del PIMS.
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Orquestación multiagente por MCP}
+\small
+\texttt{uv run agente-terceros orquestar brecha --categoria salud}
+\begin{center}
+\begin{tikzpicture}[font=\scriptsize, node distance=5mm,
+  b/.style={draw,rounded corners,align=center,minimum height=8mm,text width=25mm,fill=white},
+  ar/.style={-Stealth,thick}]
+\node[b,fill=gray!12] (inc) {Agente de\\Incidentes};
+\node[b,right=of inc] (t1) {\texttt{processors\_in\_breach}\\¿quién trata ``salud''?};
+\node[b,right=of t1] (t2) {\texttt{check\_dpa\_status}\\\texttt{evaluate\_vendor}};
+\node[b,right=of t2] (pr) {Prioriza: sin DPA, sin cláusula o riesgo alto};
+\node[b,below=6mm of pr,fill=acento!12,draw=acento] (dpo) {DPO decide notificar\\(48 h, RLPDP 34)};
+\draw[ar] (inc) -- (t1); \draw[ar] (t1) -- (t2); \draw[ar] (t2) -- (pr); \draw[ar] (pr) -- (dpo);
+\end{tikzpicture}
+\end{center}
+\begin{itemize}
+  \item El servidor MCP del agente se levanta por stdio y otro agente lo usa por JSON-RPC.
+  \item Segundo flujo: \texttt{orquestar renovaciones} $\rightarrow$ tareas por DPAs ausentes, vencidos o por vencer.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Proveedor de IA intercambiable}
+\begin{columns}[T]
+\column{.5\textwidth}
+\small
+\begin{itemize}
+  \item \alert{OpenRouter} por defecto (Gemini 2.5 Flash); también Gemini directo, OpenAI o compatibles, Anthropic y Ollama local.
+  \item \alert{Respaldo automático}: OpenRouter $\rightarrow$ Gemini $\rightarrow$ Ollama.
+  \item Se cambia con \texttt{TERCEROS\_LLM\_PROVIDER} en \texttt{.env}.
+\end{itemize}
+\column{.46\textwidth}
+\begin{block}{Control de gasto}
+\small
+Sin tokens de razonamiento · salida limitada · costo registrado · caché por \emph{hash} del prompt.\\[4pt]
+Una revisión: \textbf{US\$ 0{,}0095} en \textbf{14,5 s}; repetida: \textbf{0,2 s} y gratis.
+\end{block}
 \end{columns}
 \end{frame}
 
@@ -294,7 +356,7 @@ Citas verif. & \CitasVerVi & \CitasVer \\
 \column{.5\textwidth}
 \textbf{Trabajo futuro}
 \begin{itemize}\small
-  \item Integración con el orquestador y los agentes de Incidentes y Controles por MCP.
+  \item Conectar los flujos MCP con el orquestador definitivo del PIMS y el Agente de Controles.
   \item Migración a la base PostgreSQL central del PIMS.
   \item Generación de adendas contractuales.
   \item Contratos reales anonimizados, anotados con un abogado.

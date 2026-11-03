@@ -13,3 +13,6 @@ data/terceros.db
 *.snm
 *.toc
 *.vrb
+data/cache_ia/
+data/gasto_ia.json
+data/salidas/

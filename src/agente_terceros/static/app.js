@@ -402,6 +402,17 @@ async function navegar() {
   window.scrollTo(0, 0);
 }
 
-window.addEventListener("hashchange", navegar);
+async function refrescarEstadoIA() {
+  try {
+    const e = await api("/api/estado");
+    const respaldo = e.respaldo.length ? ` (respaldo: ${e.respaldo.join(" → ")})` : "";
+    const ultimo = e.ultimo_proveedor && e.ultimo_proveedor !== e.llm ? ` · última respuesta: ${e.ultimo_proveedor}` : "";
+    document.getElementById("estado-ia").textContent =
+      `IA: ${e.llm}${respaldo}${ultimo} · gasto US$ ${e.gasto.usd.toFixed(3)}`;
+  } catch { /* el pie es accesorio */ }
+}
+
+window.addEventListener("hashchange", () => { navegar(); refrescarEstadoIA(); });
 navegar();
 refrescarBadge();
+refrescarEstadoIA();

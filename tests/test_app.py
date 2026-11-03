@@ -48,7 +48,7 @@ def test_subir_dpa_txt_crea_aprobacion_pendiente(client):
     r = client.post(
         f"/api/proveedores/{pid}/dpa",
         data={"archivo": (io.BytesIO("Contrato de encargo.".encode()), "dpa.txt"),
-              "fecha_firma": "2026-01-01", "fecha_vencimiento": "2027-01-01"},
+              "fecha_firma": "2026-01-01", "fecha_vencimiento": "2030-01-01"},
         content_type="multipart/form-data",
     )
     assert r.status_code == 201
@@ -97,3 +97,26 @@ def test_brecha_y_consulta_y_panel(client):
 def test_checklist_expone_clausulas_y_controles(client):
     d = client.get("/api/checklist").get_json()
     assert len(d["clausulas"]) >= 10 and "A.2.5.8" in {c["ref"] for c in d["controles"]}
+
+
+def test_error_del_proveedor_de_ia_devuelve_502_con_mensaje(tmp_path, embed):
+    def llm_caido(prompt):
+        raise RuntimeError("Falta GOOGLE_API_KEY en .env para usar el proveedor gemini")
+
+    agente = Agente(Repositorio(tmp_path / "e.db"), IndiceVectorial(embed), embed, llm_caido)
+    c = create_app(agente).test_client()
+    pid = c.post("/api/proveedores", json=PROV).get_json()["id"]
+    r = c.post(f"/api/proveedores/{pid}/dpa",
+               data={"archivo": (io.BytesIO(b"Contrato de encargo."), "dpa.txt"),
+                     "fecha_firma": "2026-01-01", "fecha_vencimiento": "2027-01-01"},
+               content_type="multipart/form-data")
+    assert r.status_code == 502 and "GOOGLE_API_KEY" in r.get_json()["error"]
+    r = c.post("/api/consulta", json={"pregunta": "¿Qué es un encargado?"})
+    assert r.status_code == 502
+
+
+def test_estado_informa_proveedor_de_ia_e_indice(client):
+    d = client.get("/api/estado").get_json()
+    assert d["llm"] == "OpenRouter · google/gemini-2.5-flash"
+    assert d["fragmentos"] == 0 and "embeddings" in d
+    assert set(d["gasto"]) == {"usd", "llamadas", "tokens_entrada", "tokens_salida"}

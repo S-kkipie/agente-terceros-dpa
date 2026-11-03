@@ -145,3 +145,25 @@ def test_recuperacion_mezcla_ordena_por_similitud_y_usa_consulta_peruana(embed):
     frags = _recuperar_normativa(idx, c, get_config())
     assert [f.meta["articulo"] for f in frags][:2] in (["28", "32"], ["32", "28"])
     assert frags[-1].meta["articulo"] == "99"  # lo menos parecido queda al final
+
+
+def test_parsear_json_tolera_comas_colgantes():
+    assert parsear_json('{"clausulas": [{"id": "a", "estado": "cumple",},], "resumen": "x",}') == {
+        "clausulas": [{"id": "a", "estado": "cumple"}], "resumen": "x"}
+
+
+def test_json_invalido_se_reintenta_una_vez(normativa, embed):
+    respuestas = iter(['{"clausulas": [ {"id": "instrucciones" "estado"}', json.dumps(_respuesta())])
+    llamadas = []
+
+    def llm(prompt):
+        llamadas.append(prompt)
+        return next(respuestas)
+
+    rev = revisar_dpa(CONTRATO, normativa, embed, llm)
+    assert len(llamadas) == 2 and len(rev.resultados) == len(CLAUSULAS)
+
+
+def test_json_invalido_dos_veces_da_error_claro(normativa, embed):
+    with pytest.raises(RuntimeError, match="JSON"):
+        revisar_dpa(CONTRATO, normativa, embed, lambda p: '{"roto": ')

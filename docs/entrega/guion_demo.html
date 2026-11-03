@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guion de demo · Agente de Terceros</title>
+<style>
+  :root { --tinta:#1d2330; --suave:#5d6576; --linea:#dcd9d0; --acento:#1f5f8b; --acento-suave:#e8f0f6;
+          --guinda:#7a1f2b; --ok:#2e7d4f; --ok-bg:#e5f3ea; --warn:#a46a00; --warn-bg:#fbf1dc; }
+  * { box-sizing: border-box; }
+  body { margin:0; background:#f6f5f1; color:var(--tinta); font:15px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 20px 16px 48px; }
+  h1 { font-size: 1.45rem; margin: 0 0 4px; }
+  h2 { font-size: 1.1rem; margin: 26px 0 8px; color: var(--guinda); }
+  .sub { color: var(--suave); margin: 0 0 16px; }
+  .caja { background:#fff; border:1px solid var(--linea); border-radius:10px; padding:12px 16px; margin: 10px 0; }
+  code, pre { font-family: ui-monospace, Consolas, monospace; font-size: .86em; }
+  pre { background:#1d2330; color:#e9edf3; border-radius:8px; padding:10px 12px; overflow-x:auto; margin:6px 0; }
+  code { background:#eceae4; padding:0 4px; border-radius:4px; }
+  pre code { background:none; padding:0; }
+  .check li { list-style: none; margin: 6px 0; }
+  .check li::before { content: "☐  "; color: var(--acento); font-weight: 700; }
+  ol.tiempo { list-style: none; padding: 0; margin: 0; }
+  ol.tiempo > li { display: grid; grid-template-columns: 92px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--linea); }
+  ol.tiempo > li:last-child { border-bottom: 0; }
+  .min { font-weight: 700; color: var(--acento); font-variant-numeric: tabular-nums; }
+  .di { color: var(--suave); font-style: italic; }
+  .planb { background: var(--warn-bg); border-color: #ecd9a8; }
+  .ok { background: var(--ok-bg); border-color: #bfe0cb; }
+  details { border-bottom: 1px solid var(--linea); padding: 8px 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  @media (max-width: 560px) { ol.tiempo > li { grid-template-columns: 1fr; gap: 2px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Guion de demo: Agente de Terceros (DPAs)</h1>
+  <p class="sub">2.ª entrega del TIF · máximo 15 minutos · lo presenta un integrante elegido al azar, así que los tres deben poder seguir este guion.</p>
+
+  <h2>1. Antes de la clase (la noche anterior y 15 min antes)</h2>
+  <div class="caja">
+    <ul class="check">
+      <li>Clonar o actualizar el repo e instalar: <code>uv sync</code></li>
+      <li>Ollama corriendo y con el modelo de embeddings: <code>ollama serve</code> · <code>ollama pull nomic-embed-text</code></li>
+      <li><code>.env</code> con <code>OPENROUTER_API_KEY</code> (y <code>GOOGLE_API_KEY</code> como respaldo)</li>
+      <li>Todo en verde:
+        <pre><code>uv run agente-terceros diagnostico</code></pre></li>
+      <li>Datos de demostración (si la base está vacía): <code>uv run agente-terceros demo</code></li>
+      <li><strong>Calentar la caché</strong>: revisar una vez los tres contratos de ejemplo; en la clase saldrán al instante y gratis:
+        <pre><code>for f in data/ejemplos/*.txt; do uv run agente-terceros revisar "$f" -o /tmp/x.md; done</code></pre></li>
+      <li>Levantar la interfaz y abrir <code>http://localhost:5000</code>: <code>uv run agente-terceros web</code></li>
+      <li>Dejar abiertos: el navegador (Panel), una terminal en el repo y la hoja de entrega o las diapositivas</li>
+    </ul>
+  </div>
+  <div class="caja planb">
+    <strong>Plan B</strong>
+    <ul>
+      <li>Si OpenRouter falla (sin saldo, 429), el agente pasa solo a <strong>Gemini</strong> y luego a <strong>Ollama</strong>; el pie de la página muestra qué proveedor respondió.</li>
+      <li>Si no hay internet: los contratos de ejemplo salen de la caché; para lo demás, <code>TERCEROS_LLM_PROVIDER=ollama uv run agente-terceros web</code> (más lento).</li>
+      <li>Si se cae todo: mostrar los informes ya generados en <code>data/salidas/</code> y las capturas de las diapositivas.</li>
+    </ul>
+  </div>
+
+  <h2>2. Guion minuto a minuto</h2>
+  <div class="caja">
+    <ol class="tiempo">
+      <li><span class="min">0:00–1:30</span><div><strong>Problema y objetivo.</strong> Los encargados (nube, planillas, pagos) tratan datos por nosotros y la responsabilidad sigue siendo nuestra. Revisar DPAs a mano es lento. Nuestro agente es el A7 de los 8 del PIMS ISO/IEC 27701:2025.
+        <div class="di">Mostrar la hoja de entrega: nombre, integrantes.</div></div></li>
+      <li><span class="min">1:30–3:00</span><div><strong>Arquitectura y controles.</strong> Interfaz web y orquestador → agente con herramientas MCP → revisor, riesgo, repositorio; FAISS y Ollama locales; proveedor de IA intercambiable. Controles A.1.2.7 y A.2.5.7–A.2.5.9; LPDP art. 30; RLPDP arts. 28-33 y 36.
+        <div class="di">Diagrama de la hoja.</div></div></li>
+      <li><span class="min">3:00–4:30</span><div><strong>Panel.</strong> 4 encargados, 2 de riesgo crítico, 1 sin DPA, alerta de renovación (PagoFácil, próximo a vencer), decisiones pendientes.
+        <div class="di">Pestaña Panel → Proveedores → abrir MailRápido: riesgo 12/16 y sus factores.</div></div></li>
+      <li><span class="min">4:30–7:30</span><div><strong>Revisar un DPA en vivo.</strong> Revisar DPA → proveedor <em>LabClínico</em> → subir <code>data/ejemplos/dpa_pagofacil_intermedio.txt</code> → mostrar el %, las cláusulas que faltan, una <strong>cita literal</strong> y su <strong>fundamento</strong> (fuente, artículo, página).
+        <div class="di">Decir: "si el modelo no puede citar literal el contrato, no lo damos por cumplido".</div></div></li>
+      <li><span class="min">7:30–8:30</span><div><strong>Aprobación humana.</strong> Aprobaciones → rechazar el DPA de MailRápido con un comentario → Bitácora: queda registrado quién decidió y cuándo.</div></li>
+      <li><span class="min">8:30–11:00</span><div><strong>Orquestación multiagente (MCP).</strong> En la terminal:
+        <pre><code>uv run agente-terceros orquestar brecha --categoria salud</code></pre>
+        El Agente de Incidentes llama por MCP a <code>processors_in_breach</code>, <code>check_dpa_status</code> y <code>evaluate_vendor</code>; prioriza y deja la notificación (48 h, RLPDP art. 34) al DPO. Mostrar también la pestaña Brecha.</div></li>
+      <li><span class="min">11:00–12:30</span><div><strong>Skill y asistente.</strong> Abrir <code>skills/revisar-dpa/SKILL.md</code> (descripción de activación y pasos) y <code>asistente/</code> (identidad, instrucciones, conocimiento). Ejecutar la skill:
+        <pre><code>uv run agente-terceros revisar data/ejemplos/dpa_mailrapido_deficiente.txt</code></pre></div></li>
+      <li><span class="min">12:30–13:30</span><div><strong>Consulta normativa.</strong> "¿En qué plazo debe el encargado notificar un incidente en el Perú?" → respuesta con citas [RLPDP, art. 36].</div></li>
+      <li><span class="min">13:30–15:00</span><div><strong>Resultados y cierre.</strong> Exactitud por cláusula 87,2 %, cumple/no cumple 92,3 %, 98,9 % de citas verificadas; cobertura de norma peruana de 15 % a 69 %. Limitaciones: evaluación pequeña, numeración ISO inferida, sin OCR.</div></li>
+    </ol>
+  </div>
+
+  <h2>3. Preguntas probables</h2>
+  <div class="caja">
+    <details><summary>¿Y si el modelo inventa?</summary>Cada cita se verifica literal contra el contrato; si no aparece, la cláusula no cuenta como cumplida y se marca para revisión. Además, ningún resultado surte efecto sin aprobación humana.</details>
+    <details><summary>¿Por qué no indexaron la ISO/IEC 27701?</summary>No es de libre acceso. Catalogamos los títulos de los controles con una paráfrasis propia; la numeración de 2025 se infiere de la edición 2019 (Anexo F).</details>
+    <details><summary>¿Salen datos personales a la nube?</summary>Los embeddings y la búsqueda son locales (Ollama + FAISS). Al LLM solo va el texto del contrato y fragmentos públicos de la norma, nunca la base de datos personales. Con <code>TERCEROS_LLM_PROVIDER=ollama</code> todo queda local.</details>
+    <details><summary>¿Por qué OpenRouter / Gemini?</summary>OpenRouter permite cambiar de modelo sin tocar el código; Gemini 2.5 Flash es rápido y barato (≈ US$ 0,01 por revisión). El agente acepta Gemini directo, OpenAI o compatibles, Anthropic u Ollama, con respaldo automático.</details>
+    <details><summary>¿Cómo se integra con los otros 7 agentes?</summary>Por el bus MCP: el servidor <code>pims-terceros</code> expone sus herramientas por JSON-RPC (stdio); el flujo de brecha muestra al Agente de Incidentes usándolas.</details>
+    <details><summary>¿Por qué SQLite y no PostgreSQL?</summary>Para la demo en PC; el esquema usa tipos portables y la migración a la base PostgreSQL central del PIMS es directa.</details>
+  </div>
+
+  <div class="caja ok"><strong>Regla de oro:</strong> si algo tarda, explicar mientras carga lo que está haciendo (recupera normas por cláusula, una sola llamada al modelo, verifica citas). Una revisión toma unos 10-15 s; de caché, instantánea.</div>
+</main>
+</body>
+</html>

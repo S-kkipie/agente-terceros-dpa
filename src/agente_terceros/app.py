@@ -7,12 +7,14 @@ from dataclasses import asdict
 from datetime import date
 from pathlib import Path
 
+import requests
 from flask import Flask, abort, jsonify, request, send_from_directory
 from pypdf import PdfReader
 
 from .agente import Agente
 from .checklist import CLAUSULAS, CONTROLES
 from .ingest import limpiar
+from .llm import RegistroGasto, descripcion
 from .riesgo import VOLUMEN_IMPACTO
 
 STATIC = Path(__file__).parent / "static"
@@ -20,6 +22,11 @@ STATIC = Path(__file__).parent / "static"
 
 def _error(mensaje: str, codigo: int = 400):
     return jsonify({"error": mensaje}), codigo
+
+
+def _error_ia(e: Exception):
+    """Falla del proveedor de IA (clave, red, cuota): 502 con un mensaje legible."""
+    return _error(f"Error del proveedor de IA: {e}", 502)
 
 
 def extraer_texto(nombre: str, contenido: bytes) -> str:
@@ -60,6 +67,18 @@ def create_app(agente: Agente) -> Flask:
     @app.get("/api/panel")
     def panel():
         return jsonify(agente.panel())
+
+    @app.get("/api/estado")
+    def estado():
+        return jsonify({
+            "llm": descripcion(agente.cfg),
+            "embeddings": f"Ollama · {agente.cfg.embedding_model}",
+            "fragmentos": len(agente.normativa),
+            "gasto": RegistroGasto(agente.cfg.gasto_path).resumen(),
+            "respaldo": list(agente.cfg.llm_respaldo),
+            "ultimo_proveedor": ESTADO_IA.get("modelo"),
+            "errores_ultima_llamada": ESTADO_IA.get("errores", []),
+        })
 
     @app.get("/api/checklist")
     def checklist():
@@ -121,6 +140,8 @@ def create_app(agente: Agente) -> Flask:
             res = agente.revisar_y_registrar(pid, texto, archivo.filename, firma, vence)
         except ValueError as e:
             return _error(str(e))
+        except (RuntimeError, requests.RequestException) as e:
+            return _error_ia(e)
         return jsonify(res), 201
 
     # -- aprobaciones (HITL) -------------------------------------------------
@@ -151,7 +172,10 @@ def create_app(agente: Agente) -> Flask:
         pregunta = str(d.get("pregunta", "")).strip()
         if not pregunta:
             return _error("Escribe una pregunta")
-        return jsonify(agente.consultar(pregunta, d.get("jurisdiccion") or None))
+        try:
+            return jsonify(agente.consultar(pregunta, d.get("jurisdiccion") or None))
+        except (RuntimeError, requests.RequestException) as e:
+            return _error_ia(e)
 
     @app.get("/api/brecha")
     def brecha():
@@ -178,11 +202,33 @@ def create_app(agente: Agente) -> Flask:
     return app
 
 
+ESTADO_IA: dict = {}  # qué proveedor respondió la última llamada y por qué fallaron los otros
+
+
+def llm_real(cfg, json_salida: bool = True):
+    """LLM del proveedor configurado con respaldo automático, registro de gasto y caché."""
+    from .llm import RegistroGasto, con_cache, crear_llm_con_respaldo, etiqueta
+
+    from .revisor import parsear_json
+
+    def json_valido(respuesta: str) -> bool:
+        try:
+            parsear_json(respuesta)
+            return True
+        except ValueError:
+            return False
+
+    base = crear_llm_con_respaldo(cfg, json_salida, gasto=RegistroGasto(cfg.gasto_path), estado=ESTADO_IA)
+    return con_cache(
+        base, cfg.cache_dir, f"{etiqueta(cfg)}/{'json' if json_salida else 'texto'}",
+        valida=json_valido if json_salida else None,
+    )
+
+
 def crear_agente_real() -> Agente:
     """Agente con índice FAISS persistido, embeddings Ollama y Gemini."""
     from .config import get_config
     from .db import Repositorio
-    from .revisor import llm_gemini
     from .vectores import IndiceVectorial, construir_indice, embedder_ollama
 
     cfg = get_config()
@@ -193,5 +239,5 @@ def crear_agente_real() -> Agente:
         normativa = construir_indice(cfg, embed)
     return Agente(
         Repositorio(cfg.db_path), normativa, embed,
-        llm=llm_gemini(cfg), llm_texto=llm_gemini(cfg, json_salida=False), cfg=cfg,
+        llm=llm_real(cfg), llm_texto=llm_real(cfg, json_salida=False), cfg=cfg,
     )

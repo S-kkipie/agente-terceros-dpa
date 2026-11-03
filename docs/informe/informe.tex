@@ -30,7 +30,7 @@ Universidad Nacional de San Agustín de Arequipa, Arequipa, Perú}
 \maketitle
 
 \begin{abstract}
-Cuando una organización encarga a un tercero el tratamiento de datos personales, conserva la responsabilidad sobre esos datos, y el contrato de encargo (DPA) es la principal garantía con la que cuenta. Revisar esos contratos frente a la Ley N.º 29733, su Reglamento (D.S. 016-2024-JUS) y el artículo 28 del RGPD es una tarea manual, repetitiva y propensa a omisiones. Este artículo presenta el \emph{Agente de Terceros}, uno de los ocho agentes de un Sistema de Gestión de Privacidad de la Información (PIMS) multiagente basado en ISO/IEC 27701:2025, responsable de los controles A.1.2.7, A.2.5.7 y A.2.5.8. El agente contrasta cada DPA con \NumClausulas{} cláusulas mínimas mediante recuperación aumentada por generación (RAG): un índice FAISS de \NumFragmentos{} fragmentos normativos con \emph{embeddings} locales (\texttt{nomic-embed-text}) y una única llamada a Gemini 2.5 Flash con salida estructurada. Además, verifica literalmente las citas del modelo, calcula un cumplimiento ponderado, evalúa el riesgo del proveedor con una matriz 4$\times$4, controla vencimientos y subencargados, y somete toda decisión a aprobación humana. Expone sus herramientas por \emph{Model Context Protocol} (MCP) y una interfaz Flask. Una consulta adicional con vocabulario de la norma peruana eleva la cobertura de fuentes peruanas relevantes de \PeruGen{} a \PeruMix{}. Sobre tres contratos anotados y \Corridas{} corridas por contrato, el agente alcanza una exactitud por cláusula de \Exactitud{}, una exactitud binaria (cumple / no cumple) de \ExactitudBin{} y un error absoluto medio de \MaePct{} puntos porcentuales en el índice de cumplimiento.
+Cuando una organización encarga a un tercero el tratamiento de datos personales, conserva la responsabilidad sobre esos datos, y el contrato de encargo (DPA) es la principal garantía con la que cuenta. Revisar esos contratos frente a la Ley N.º 29733, su Reglamento (D.S. 016-2024-JUS) y el artículo 28 del RGPD es una tarea manual, repetitiva y propensa a omisiones. Este artículo presenta el \emph{Agente de Terceros}, uno de los ocho agentes de un Sistema de Gestión de Privacidad de la Información (PIMS) multiagente basado en ISO/IEC 27701:2025, responsable de los controles A.1.2.7, A.2.5.7 y A.2.5.8. El agente contrasta cada DPA con \NumClausulas{} cláusulas mínimas mediante recuperación aumentada por generación (RAG): un índice FAISS de \NumFragmentos{} fragmentos normativos con \emph{embeddings} locales (\texttt{nomic-embed-text}) y una única llamada a Gemini 2.5 Flash con salida estructurada. Además, verifica literalmente las citas del modelo, calcula un cumplimiento ponderado, evalúa el riesgo del proveedor con una matriz 4$\times$4, controla vencimientos y subencargados, y somete toda decisión a aprobación humana. Expone sus herramientas por \emph{Model Context Protocol} (MCP) y una interfaz Flask; está empaquetado como dos \emph{skills} y un asistente (identidad, instrucciones y conocimiento), se coordina con el Agente de Incidentes mediante flujos MCP y admite cualquier proveedor de IA con respaldo automático. Una consulta adicional con vocabulario de la norma peruana eleva la cobertura de fuentes peruanas relevantes de \PeruGen{} a \PeruMix{}. Sobre tres contratos anotados y \Corridas{} corridas por contrato, el agente alcanza una exactitud por cláusula de \Exactitud{}, una exactitud binaria (cumple / no cumple) de \ExactitudBin{} y un error absoluto medio de \MaePct{} puntos porcentuales en el índice de cumplimiento.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -100,7 +100,7 @@ La Fig.~\ref{fig:arq} muestra los componentes. El agente es un paquete de Python
 \node[b,text width=17mm,right=2mm of rie] (db) {Repositorio\\SQLite + HITL};
 \node[b,text width=17mm,below=5mm of rev] (faiss) {FAISS\\\NumFragmentos{} fragm.};
 \node[ext,text width=17mm,left=3mm of faiss] (oll) {Ollama\\nomic-embed};
-\node[ext,text width=15mm,right=3mm of faiss] (gem) {Gemini 2.5\\Flash (JSON)};
+\node[ext,text width=17mm,right=3mm of faiss] (gem) {Proveedor IA\\(OpenRouter)};
 \draw[ar] (ui.south) -- node[fill=white,inner sep=1pt,font=\tiny]{REST} (ui.south |- ag.north);
 \draw[ar] (orq.south) -- node[fill=white,inner sep=1pt,font=\tiny]{MCP} (orq.south |- ag.north);
 \draw[ar] (ag) -- (rev); \draw[ar] (ag) -- (rie); \draw[ar] (ag) -- (db);
@@ -174,8 +174,8 @@ Asistencia en EIPD & 28.3.f, 35 & A.2.2.2 & 1 \\
 
 \subsection{Revisión de un DPA}
 \begin{enumerate}
-  \item \textbf{Recuperación por cláusula.} Para cada cláusula se recuperan seis fragmentos con la consulta general y dos fragmentos peruanos con la consulta local. Los resultados se unen sin duplicados y se ordenan por similitud. La numeración de los fragmentos es global y se comparte entre las cláusulas.
-  \item \textbf{Generación.} Una sola llamada a Gemini 2.5 Flash \cite{gemini25} recibe las cláusulas, los fragmentos numerados y el texto del contrato (o, si este supera 30\,000 caracteres, sus fragmentos más pertinentes). Devuelve un JSON con el estado, la cita literal, los fundamentos y la recomendación de cada cláusula. Una sola llamada reduce la latencia y el consumo frente a trece llamadas separadas.
+  \item \textbf{Recuperación por cláusula.} Para cada cláusula se recuperan cuatro fragmentos con la consulta general y dos fragmentos peruanos con la consulta local (como máximo seis). Los resultados se unen sin duplicados y se ordenan por similitud. La numeración de los fragmentos es global y se comparte entre las cláusulas.
+  \item \textbf{Generación.} Una sola llamada al LLM configurado (Gemini 2.5 Flash \cite{gemini25} por defecto) recibe las cláusulas, los fragmentos numerados y el texto del contrato (o, si este supera 30\,000 caracteres, sus fragmentos más pertinentes). Devuelve un JSON con el estado, la cita literal, los fundamentos y la recomendación de cada cláusula. Una sola llamada reduce la latencia y el consumo frente a trece llamadas separadas.
   \item \textbf{Validación.} Se descartan los identificadores desconocidos y los estados inválidos. Una cláusula que el modelo no evalúa cuenta como ``falta''.
   \item \textbf{Verificación literal.} La cita se divide en frases (separadas por punto o por elipsis) y cada frase de 20 caracteres o más debe aparecer en el contrato normalizado. Si una cláusula marcada como ``cumple'' no supera esta verificación, baja a ``parcial'' y se señala para revisión manual.
   \item \textbf{Puntaje.} Con $v(\text{cumple})=1$, $v(\text{parcial})=0{,}5$ y $v(\text{falta})=0$,
@@ -186,6 +186,41 @@ Asistencia en EIPD & 28.3.f, 35 & A.2.2.2 & 1 \\
 
 \subsection{Riesgo del proveedor}
 Siguiendo la gestión del riesgo de la AEPD y la NTP-ISO 31000 \cite{aepd2021,ntp31000}, el riesgo es $R = P \times I$ con $P, I \in \{1,\dots,4\}$. El impacto parte del volumen de titulares (bajo, medio o alto) y suma 1 si se tratan datos sensibles. La probabilidad parte de 1 y suma 1 por cada uno de estos factores: transferencia a un país sin nivel adecuado, uso de subencargados, DPA sin revisar o con $C<70$ y ausencia de un DPA vigente. Los incidentes de los últimos doce meses suman 1, o 2 si son tres o más. La certificación ISO/IEC 27701 resta 1. El nivel es bajo si $R\le3$, medio si $R\le6$, alto si $R\le9$ y crítico en otro caso, con revisiones cada 24, 12, 6 y 3 meses respectivamente. Que el modelo sea determinista es deliberado: el auditor debe poder reproducir el puntaje.
+
+%=====================================================================
+\section{Del prompt a la skill, el asistente y la orquestación}
+El TIF pide recorrer el camino que va de un prompt aislado a un proyecto agéntico. La Tabla~\ref{tab:tif} resume cómo lo cubre el agente; los artefactos están en el repositorio.
+
+\begin{table}[t]
+\centering
+\caption{Tareas del TIF y artefactos del agente}
+\label{tab:tif}
+\footnotesize
+\begin{tabular}{@{}p{.3\columnwidth}p{.6\columnwidth}@{}}
+\toprule
+Tarea & Artefacto \\
+\midrule
+De prompt a skill & Procedimiento fijo de 13 cláusulas, salida JSON, verificación literal y puntaje \\
+Creación de skill & \texttt{skills/revisar-dpa} y \texttt{skills/brecha-encargados} (\texttt{SKILL.md}) \\
+Construcción de asistente & \texttt{asistente/}: identidad, instrucciones y conocimiento \\
+Diseño de agente & Objetivo, datos (corpus y base del PIMS), contexto (rol en el PIMS) y herramientas MCP \\
+Orquestación & Flujos \emph{brecha} y \emph{renovaciones} por MCP (stdio, JSON-RPC) \\
+Proyecto agéntico & Aplicación web, CLI, servidor MCP y evaluación \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{De prompt a skill}
+El punto de partida fue un prompt suelto (``revisa este contrato y dime si cumple la ley''), cuyas respuestas variaban, no citaban artículos verificables y a veces inventaban plazos. Lo convertimos en un proceso reutilizable: cláusulas con criterio y peso, recuperación de normas por cláusula, salida estructurada y control de citas. Ese proceso quedó empaquetado como la \emph{skill} \texttt{revisar-dpa}. Su archivo \texttt{SKILL.md} define la \textbf{activación} (una descripción con las situaciones que deben dispararla: revisar un DPA, un contrato de tercerización o con un proveedor de nube), la \textbf{estructura} (requisitos, referencias y ejemplo) y los \textbf{pasos} numerados (diagnóstico, revisión con \texttt{agente-terceros revisar}, lectura del informe, registro y aprobación humana). La segunda \emph{skill}, \texttt{brecha-encargados}, encapsula la respuesta ante una brecha.
+
+\subsection{Asistente}
+El asistente ``Auditor de Encargados (A7)'' se define en tres piezas: la \textbf{identidad} (rol, objetivo, controles a cargo, tono y límites: no aprueba contratos ni notifica brechas), las \textbf{instrucciones} (prompt de sistema con las reglas de normativa aplicable, citas literales y escalamiento al DPO) y el \textbf{conocimiento} (corpus indexado, catálogo de cláusulas y controles, matriz de riesgo y base operativa del PIMS).
+
+\subsection{Orquestación multiagente}
+El servidor MCP del agente se levanta como proceso hijo y otro agente lo usa por JSON-RPC. En el flujo de \emph{brecha}, el Agente de Incidentes recibe la categoría de datos afectada, llama a \texttt{processors\_in\_breach} y, por cada encargado implicado, a \texttt{check\_dpa\_status} y \texttt{evaluate\_vendor}. Con eso asigna prioridad alta cuando no hay DPA vigente, cuando el contrato no garantiza la notificación o cuando el riesgo es alto, y deja la notificación a la Autoridad (48~h, RLPDP art.~34) en manos del DPO. En el flujo de \emph{renovaciones}, el orquestador recorre \texttt{list\_processors} y genera tareas por DPAs ausentes, vencidos, por vencer o pendientes.
+
+\subsection{Proveedor de IA intercambiable}
+El LLM se elige por configuración: OpenRouter (por defecto, con Gemini 2.5 Flash), Gemini directo, OpenAI o cualquier servidor compatible, Anthropic u Ollama local. Si el proveedor principal falla (sin saldo, límite de uso o red), el agente pasa automáticamente a los de respaldo (Gemini y luego Ollama). Para controlar el gasto, desactiva los tokens de razonamiento, limita la salida, registra el costo que informa OpenRouter y guarda en caché las respuestas válidas por \emph{hash} del prompt, de modo que repetir una revisión no vuelve a costar. En una prueba, una revisión completa costó US\$~0{,}0095 y tardó 14{,}5~s, y su repetición se sirvió desde la caché en 0{,}2~s.
 
 %=====================================================================
 \section{Evaluación}
@@ -208,10 +243,10 @@ General + consulta peruana & \HitMix & \MrrMix & \PMix & \PeruMix \\
 \end{tabular}
 \end{table}
 
-La Tabla~\ref{tab:recuperacion} muestra que la búsqueda general recupera casi solo fuentes europeas, mucho más extensas y redactadas con el vocabulario del RGPD. La consulta con vocabulario peruano corrige ese sesgo: la cobertura peruana pasa de \PeruGen{} a \PeruMix{}. El costo es una ligera caída de Hit@6 (de \HitGen{} a \HitMix{}), porque en la cláusula de solicitudes de autoridades los dos fragmentos peruanos empujan fuera de los seis primeros puestos a los dos fragmentos relevantes (RGPD art. 28 y CEPD). En la práctica, el agente envía al modelo la unión completa (hasta ocho fragmentos), no solo los seis primeros. La primera versión del agente colocaba los fragmentos peruanos al inicio de la lista sin importar su similitud: con ella, el MRR caía a 0{,}455 y la cobertura peruana solo llegaba a 0{,}308. Ordenar la unión por similitud y usar una consulta específica para la norma peruana resolvió ambos problemas. La latencia media de recuperación es de \LatRec{}~ms por cláusula, que se reparte entre el \emph{embedding} local de la consulta y la búsqueda en FAISS.
+La Tabla~\ref{tab:recuperacion} muestra que la búsqueda general recupera casi solo fuentes europeas, mucho más extensas y redactadas con el vocabulario del RGPD. La consulta con vocabulario peruano corrige ese sesgo: la cobertura peruana pasa de \PeruGen{} a \PeruMix{}. El costo es una ligera caída de Hit@6 (de \HitGen{} a \HitMix{}), porque en la cláusula de solicitudes de autoridades los dos fragmentos peruanos empujan fuera de los seis primeros puestos a los dos fragmentos relevantes (RGPD art. 28 y CEPD). Como la unión tiene como máximo seis fragmentos, esa lista es exactamente la que recibe el modelo. La primera versión del agente colocaba los fragmentos peruanos al inicio de la lista sin importar su similitud: con ella, el MRR caía a 0{,}455 y la cobertura peruana solo llegaba a 0{,}308. Ordenar la unión por similitud y usar una consulta específica para la norma peruana resolvió ambos problemas. La latencia media de recuperación es de \LatRec{}~ms por cláusula, que se reparte entre el \emph{embedding} local de la consulta y la búsqueda en FAISS.
 
 \subsection{Revisión de contratos}
-Construimos tres contratos ficticios con distinto grado de cumplimiento: uno completo, que contempla las trece cláusulas; uno intermedio, de una pasarela de pagos con varias cláusulas parciales o ausentes; y uno deficiente, de un servicio de \emph{mailing} que permite usos propios y subencargados sin aviso. Los autores anotaron el estado esperado de cada cláusula ($3\times13=39$ etiquetas). Cada contrato se revisó \Corridas{} veces para medir la variabilidad del LLM.
+Construimos tres contratos ficticios con distinto grado de cumplimiento: uno completo, que contempla las trece cláusulas; uno intermedio, de una pasarela de pagos con varias cláusulas parciales o ausentes; y uno deficiente, de un servicio de \emph{mailing} que permite usos propios y subencargados sin aviso. Los autores anotaron el estado esperado de cada cláusula ($3\times13=39$ etiquetas). Cada contrato se revisó \Corridas{} veces, sin caché, para medir la variabilidad del LLM; la evaluación usó Gemini 2.5 Flash a través de la API de Google AI Studio, el mismo modelo que el agente usa por defecto mediante OpenRouter.
 
 \begin{table}[t]
 \centering
@@ -288,7 +323,7 @@ La Fig.~\ref{fig:ui} muestra la ficha de un proveedor de riesgo crítico y el in
 
 %=====================================================================
 \section{Conclusiones y trabajo futuro}
-El Agente de Terceros automatiza la parte más repetitiva de la gestión de encargados: la lectura de contratos frente a las cláusulas exigibles. Además mantiene la trazabilidad normativa (fuente, artículo y página) y deja la decisión en manos humanas. Los \emph{embeddings} locales con FAISS mantienen la recuperación dentro de la organización. Al LLM externo solo se envían el contrato y los fragmentos públicos de la norma, nunca la base de datos personales, y una variante con un LLM local (Ollama) es directa. Como trabajo futuro planteamos: integrar el agente con el orquestador y con los agentes de Incidentes y de Controles a través del bus MCP; migrar el repositorio a la base PostgreSQL central del PIMS; generar adendas contractuales a partir de las cláusulas faltantes; y ampliar el conjunto de evaluación con contratos reales.
+El Agente de Terceros automatiza la parte más repetitiva de la gestión de encargados: la lectura de contratos frente a las cláusulas exigibles. Además mantiene la trazabilidad normativa (fuente, artículo y página) y deja la decisión en manos humanas. Los \emph{embeddings} locales con FAISS mantienen la recuperación dentro de la organización. Al LLM externo solo se envían el contrato y los fragmentos públicos de la norma, nunca la base de datos personales, y con el proveedor Ollama todo el procesamiento queda local. Como trabajo futuro planteamos: conectar los flujos con el orquestador definitivo del PIMS y con el Agente de Controles a través del bus MCP; migrar el repositorio a la base PostgreSQL central del PIMS; generar adendas contractuales a partir de las cláusulas faltantes; y ampliar el conjunto de evaluación con contratos reales.
 
 \bibliographystyle{IEEEtran}
 \bibliography{referencias}

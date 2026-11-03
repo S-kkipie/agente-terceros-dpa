@@ -1,6 +1,6 @@
 """Configuración central: rutas, modelos, parámetros y corpus normativo."""
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 import os
 
@@ -72,8 +72,19 @@ class Config:
 
     ollama_url: str = os.getenv("OLLAMA_URL", "http://localhost:11434")
     embedding_model: str = os.getenv("TERCEROS_EMBEDDING_MODEL", "nomic-embed-text")
-    llm_model: str = os.getenv("TERCEROS_LLM_MODEL", "gemini-2.5-flash")
+    # Proveedor de IA: openrouter (por defecto, con Gemini) | gemini | openai (u OpenAI-compatible)
+    # | anthropic | ollama.
+    llm_provider: str = os.getenv("TERCEROS_LLM_PROVIDER", "openrouter").strip().lower()
+    llm_model: str = os.getenv("TERCEROS_LLM_MODEL", "")  # vacío = modelo por defecto del proveedor
+    llm_base_url: str = os.getenv("TERCEROS_LLM_BASE_URL", "")  # p. ej. OpenRouter, Groq, LM Studio
+    # Proveedores de respaldo, en orden, si el principal falla (sin saldo, 429, red).
+    llm_respaldo: tuple[str, ...] = tuple(
+        x.strip().lower() for x in os.getenv("TERCEROS_LLM_RESPALDO", "gemini,ollama").split(",") if x.strip()
+    )
     temperature: float = 0.1
+    max_tokens: int = 8000  # tope de salida por llamada (controla el gasto)
+    cache_dir: Path = ROOT / "data" / "cache_ia"  # respuestas ya pagadas, por hash del prompt
+    gasto_path: Path = ROOT / "data" / "gasto_ia.json"
 
     tamano: int = 1000
     solape: int = 150
@@ -81,10 +92,6 @@ class Config:
     top_k_contrato: int = 3  # fragmentos del contrato por cláusula
 
     dias_alerta: int = 60  # aviso de vencimiento de DPAs
-
-    api_key: str | None = field(
-        default_factory=lambda: os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
-    )
 
 
 def get_config() -> Config:

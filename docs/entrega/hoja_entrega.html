@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hoja de entrega · Agente de Terceros (DPAs)</title>
+<style>
+  :root {
+    --tinta: #1d2330; --suave: #5d6576; --linea: #dcd9d0; --acento: #1f5f8b;
+    --acento-suave: #e8f0f6; --guinda: #7a1f2b; --fondo: #ffffff;
+  }
+  @page { size: A4; margin: 11mm 12mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #eceae4; color: var(--tinta);
+         font: 9.4pt/1.38 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .hoja { background: var(--fondo); max-width: 210mm; margin: 16px auto; padding: 11mm 12mm; }
+  @media print { body { background: #fff; } .hoja { margin: 0; padding: 0; max-width: none; } }
+  @media (max-width: 640px) { .hoja { margin: 0; padding: 16px; } .dos { grid-template-columns: 1fr !important; } }
+  header { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px;
+           border-bottom: 2px solid var(--guinda); padding-bottom: 6px; margin-bottom: 9px; }
+  header h1 { font-size: 15pt; margin: 0; line-height: 1.15; }
+  header .sub { color: var(--suave); font-size: 8.6pt; }
+  header .curso { text-align: right; font-size: 8.4pt; color: var(--suave); }
+  h2 { font-size: 9.6pt; text-transform: uppercase; letter-spacing: .5px; color: var(--guinda);
+       margin: 9px 0 4px; }
+  .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .caja { border: 1px solid var(--linea); border-radius: 6px; padding: 6px 9px; }
+  ul { margin: 2px 0; padding-left: 16px; }
+  li { margin: 1px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+  th { text-align: left; background: var(--acento-suave); padding: 3px 6px; font-weight: 600; }
+  td { border-bottom: 1px solid var(--linea); padding: 3px 6px; vertical-align: top; }
+  code { font: 8.3pt ui-monospace, Consolas, monospace; background: #f3f2ee; padding: 0 3px; border-radius: 3px; }
+  .nombre { font-size: 12pt; font-weight: 700; color: var(--acento); }
+  svg { width: 100%; height: auto; display: block; }
+  .nota { color: var(--suave); font-size: 8pt; }
+  .tag { display: inline-block; border: 1px solid var(--acento); color: var(--acento); border-radius: 99px;
+         padding: 0 6px; font-size: 7.8pt; margin: 1px 2px 1px 0; }
+</style>
+</head>
+<body>
+<main class="hoja">
+  <header>
+    <div>
+      <h1>Agente de Terceros (DPAs)</h1>
+      <div class="sub">PIMS multiagente basado en ISO/IEC 27701:2025 · 2.ª entrega del TIF</div>
+    </div>
+    <div class="curso">Auditoría de Sistemas · Escuela Profesional de Ingeniería de Sistemas<br>
+      Universidad Nacional de San Agustín de Arequipa</div>
+  </header>
+
+  <div class="dos">
+    <section class="caja">
+      <h2 style="margin-top:2px">Grupo e integrantes</h2>
+      <div><strong>Grupo:</strong> N.º ____ </div>
+      <ul>
+        <li>Dylan Antonio Zúñiga Huarca</li>
+        <li>Jeferson Joao Basurco Casani</li>
+        <li>Adrian Issac Mamani Quispe</li>
+      </ul>
+    </section>
+    <section class="caja">
+      <h2 style="margin-top:2px">Nombre del agente</h2>
+      <div class="nombre">Agente de Terceros (DPAs): "Auditor de Encargados", A7</div>
+      <div>Revisa los contratos de encargo (DPA) de los proveedores que tratan datos personales, evalúa su riesgo, controla vencimientos y subencargados, y apoya la respuesta ante brechas. Toda decisión pasa por aprobación humana.</div>
+    </section>
+  </div>
+
+  <h2>Diagrama de arquitectura</h2>
+  <svg viewBox="0 0 760 250" role="img" aria-label="Arquitectura del Agente de Terceros">
+    <defs>
+      <marker id="f" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#5d6576"/></marker>
+      <style>
+        .b{fill:#fff;stroke:#5d6576;stroke-width:1.2;rx:6}
+        .e{fill:#f1f0eb;stroke:#9a9fa9;stroke-width:1.1}
+        .p{fill:#e8f0f6;stroke:#1f5f8b;stroke-width:1.6}
+        .h{fill:#fbecee;stroke:#7a1f2b;stroke-width:1.2}
+        text{font:11px system-ui,sans-serif;fill:#1d2330}
+        .t{font-weight:700}
+        .m{font:9.5px ui-monospace,Consolas,monospace;fill:#1f5f8b}
+        .l{stroke:#5d6576;stroke-width:1.3;fill:none;marker-end:url(#f)}
+        .k{font-size:9.5px;fill:#5d6576}
+      </style>
+    </defs>
+    <!-- fila superior -->
+    <rect class="e" x="10" y="8" width="170" height="44" rx="6"/>
+    <text x="95" y="26" text-anchor="middle" class="t">Interfaz web</text>
+    <text x="95" y="42" text-anchor="middle">Flask + HTML/CSS/JS puro</text>
+    <rect class="e" x="200" y="8" width="210" height="44" rx="6"/>
+    <text x="305" y="26" text-anchor="middle" class="t">Orquestador · Ag. de Incidentes</text>
+    <text x="305" y="42" text-anchor="middle">skills revisar-dpa · brecha-encargados</text>
+    <rect class="h" x="430" y="8" width="320" height="44" rx="6"/>
+    <text x="590" y="26" text-anchor="middle" class="t">Aprobación humana (HITL)</text>
+    <text x="590" y="42" text-anchor="middle">Asesoría Legal / DPO aprueba DPAs y subencargados</text>
+    <!-- agente -->
+    <rect class="p" x="10" y="78" width="740" height="50" rx="7"/>
+    <text x="380" y="98" text-anchor="middle" class="t">Agente de Terceros (A7): identidad + instrucciones + conocimiento</text>
+    <text x="380" y="116" text-anchor="middle" class="m">MCP: list_processors · check_dpa_status · evaluate_vendor · processors_in_breach</text>
+    <path class="l" d="M95,52 V78"/><text x="101" y="69" class="k">REST</text>
+    <path class="l" d="M305,52 V78"/><text x="311" y="69" class="k">MCP (JSON-RPC)</text>
+    <path class="l" d="M590,78 V52"/><text x="596" y="69" class="k">pendientes</text>
+    <!-- componentes -->
+    <rect class="b" x="10" y="150" width="220" height="40" rx="6"/>
+    <text x="120" y="167" text-anchor="middle" class="t">Revisor de DPA</text>
+    <text x="120" y="182" text-anchor="middle">13 cláusulas · citas verificadas</text>
+    <rect class="b" x="270" y="150" width="200" height="40" rx="6"/>
+    <text x="370" y="167" text-anchor="middle" class="t">Riesgo del proveedor</text>
+    <text x="370" y="182" text-anchor="middle">matriz 4×4 determinista</text>
+    <rect class="b" x="510" y="150" width="240" height="40" rx="6"/>
+    <text x="630" y="167" text-anchor="middle" class="t">Repositorio SQLite (→ PostgreSQL)</text>
+    <text x="630" y="182" text-anchor="middle">proveedores · DPAs · bitácora</text>
+    <path class="l" d="M120,128 V150"/><path class="l" d="M370,128 V150"/><path class="l" d="M630,128 V150"/>
+    <!-- fila inferior -->
+    <rect class="e" x="10" y="208" width="220" height="38" rx="6"/>
+    <text x="120" y="224" text-anchor="middle" class="t">FAISS + Ollama (local)</text>
+    <text x="120" y="239" text-anchor="middle">978 fragmentos · nomic-embed-text</text>
+    <rect class="e" x="270" y="208" width="480" height="38" rx="6"/>
+    <text x="510" y="224" text-anchor="middle" class="t">Proveedor de IA intercambiable</text>
+    <text x="510" y="239" text-anchor="middle">OpenRouter (Gemini 2.5 Flash) → Gemini → Ollama · o bien OpenAI / Anthropic</text>
+    <path class="l" d="M120,190 V208"/><path class="l" d="M200,190 C240,200 260,210 300,212"/>
+  </svg>
+
+  <h2>Cláusulas y controles de la norma de los que se ocupa</h2>
+  <table>
+    <tr><th style="width:27%">Norma</th><th>Cláusulas / controles</th></tr>
+    <tr><td><strong>ISO/IEC 27701:2025</strong> (principales)</td>
+      <td><strong>A.1.2.7</strong> contratos con encargados · <strong>A.2.5.7</strong> divulgación de subcontratistas ·
+        <strong>A.2.5.8</strong> contratación de subencargados · <strong>A.2.5.9</strong> cambio de subencargado</td></tr>
+    <tr><td>ISO/IEC 27701:2025 (de apoyo)</td>
+      <td>A.2.2.2 acuerdo con el cliente · A.2.2.3 finalidades · A.2.2.5 instrucción infractora · A.2.2.6–A.2.2.7 información y registros ·
+        A.2.3.2 derechos de los titulares · A.2.4.3 devolución o eliminación · A.2.4.4 transmisión · A.2.5.2–A.2.5.5 transferencias y divulgaciones ·
+        cláusula 9 (evidencia: bitácora de auditoría)</td></tr>
+    <tr><td>Ley 29733 y D.S. 016-2024-JUS</td>
+      <td>LPDP art. 30 (prestación de servicios de tratamiento) · RLPDP arts. 28-30 (tercerización), 31 (encargo), 32-33 (subcontratación), 34 y 36 (incidentes)</td></tr>
+    <tr><td>RGPD (referencia comparada)</td>
+      <td>Art. 28 (contrato de encargo), apoyado en las Directrices 07/2020 del CEPD y las cláusulas tipo de la Decisión (UE) 2021/915</td></tr>
+  </table>
+  <div style="margin-top:4px">
+    <span class="tag">Objeto y finalidad</span><span class="tag">Instrucciones</span><span class="tag">Confidencialidad</span>
+    <span class="tag">Seguridad</span><span class="tag">Subencargados</span><span class="tag">Derechos</span>
+    <span class="tag">Notificación de incidentes</span><span class="tag">Supresión o devolución</span><span class="tag">Auditorías</span>
+    <span class="tag">Transferencias</span><span class="tag">Prohibición de fines propios</span><span class="tag">Solicitudes de autoridades</span>
+    <span class="tag">Asistencia en EIPD</span>
+    <span class="nota">: las 13 cláusulas mínimas que verifica en cada DPA.</span>
+  </div>
+  <p class="nota" style="margin:3px 0 0">La numeración de ISO/IEC 27701:2025 se infiere de su correspondencia con la edición 2019 (Anexo F).</p>
+
+  <div class="dos" style="margin-top:2px">
+    <section>
+      <h2>Despliegue y presentación</h2>
+      <ul>
+        <li><strong>Se ejecuta en PC (laptop) y se proyecta en la presentación.</strong> No usa VPS, así que no hay enlace, cuenta ni contraseña.</li>
+        <li>Código: <code>github.com/S-kkipie/agente-terceros-dpa</code></li>
+        <li>Ejecución: <code>uv run agente-terceros diagnostico</code> → <code>web</code> (http://localhost:5000)</li>
+        <li>Orquestación: <code>uv run agente-terceros orquestar brecha</code></li>
+      </ul>
+    </section>
+    <section>
+      <h2>Tareas del TIF cubiertas</h2>
+      <ul>
+        <li><strong>Skills:</strong> <code>revisar-dpa</code>, <code>brecha-encargados</code> (activación, estructura y pasos)</li>
+        <li><strong>Asistente:</strong> identidad, instrucciones y conocimiento (<code>asistente/</code>)</li>
+        <li><strong>Orquestación:</strong> flujos multiagente por MCP (brecha y renovaciones)</li>
+        <li><strong>Evaluación:</strong> exactitud por cláusula del 87,2 % y cumple/no cumple del 92,3 % en 3 contratos anotados</li>
+      </ul>
+    </section>
+  </div>
+</main>
+</body>
+</html>

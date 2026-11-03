@@ -21,7 +21,8 @@ from pathlib import Path
 
 from agente_terceros.checklist import CLAUSULAS
 from agente_terceros.config import ROOT, get_config
-from agente_terceros.revisor import VALOR, _recuperar_normativa, llm_gemini, revisar_dpa
+from agente_terceros.llm import crear_llm
+from agente_terceros.revisor import VALOR, _recuperar_normativa, revisar_dpa
 from agente_terceros.vectores import IndiceVectorial, embedder_ollama
 
 RES = ROOT / "eval" / "resultados"
@@ -109,7 +110,7 @@ def evaluar_recuperacion(idx: IndiceVectorial, cfg) -> dict:
 
 
 def evaluar_revision(idx: IndiceVectorial, embed, cfg, corridas: int) -> dict:
-    llm = llm_gemini(cfg)
+    llm = crear_llm(cfg)
     pesos = {c.id: c.peso for c in CLAUSULAS}
     total_peso = sum(pesos.values())
     salida = {}

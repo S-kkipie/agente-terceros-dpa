@@ -101,7 +101,12 @@ def parsear_json(texto: str) -> dict:
     if m:
         texto = m.group(1)
     inicio, fin = texto.find("{"), texto.rfind("}")
-    return json.loads(texto[inicio:fin + 1])
+    candidato = texto[inicio:fin + 1]
+    try:
+        return json.loads(candidato)
+    except json.JSONDecodeError:
+        # Error frecuente de los LLM: comas colgantes antes de } o ].
+        return json.loads(re.sub(r",\s*([}\]])", r"\1", candidato))
 
 
 def _normal(s: str) -> str:
@@ -146,6 +151,19 @@ def _texto_contrato(contrato: str, embed: Embedder, cfg: Config) -> str:
     return "\n[...]\n".join(partes)
 
 
+def _pedir_json(llm: LLM, prompt: str, intentos: int = 2) -> dict:
+    """Llama al LLM y parsea su JSON; si llega malformado, reintenta una vez."""
+    for i in range(intentos):
+        try:
+            return parsear_json(llm(prompt))
+        except (json.JSONDecodeError, ValueError):
+            if i == intentos - 1:
+                raise RuntimeError(
+                    "El modelo devolvió un JSON inválido dos veces seguidas; vuelve a intentarlo"
+                ) from None
+    raise AssertionError("inalcanzable")
+
+
 def revisar_dpa(
     contrato: str, normativa: IndiceVectorial, embed: Embedder, llm: LLM, cfg: Config | None = None
 ) -> RevisionDPA:
@@ -180,7 +198,7 @@ def revisar_dpa(
         fragmentos=bloque_frags,
         contrato=_texto_contrato(contrato, embed, cfg),
     )
-    datos = parsear_json(llm(prompt))
+    datos = _pedir_json(llm, prompt)
 
     por_id = {d.get("id"): d for d in datos.get("clausulas", []) if isinstance(d, dict)}
     contrato_normal = _normal(contrato)
@@ -207,30 +225,3 @@ def revisar_dpa(
     total = sum(r.peso for r in resultados)
     cumplimiento = sum(r.peso * VALOR[r.estado] for r in resultados) / total * 100
     return RevisionDPA(cumplimiento, str(datos.get("resumen", "")), resultados, fuentes)
-
-
-def llm_gemini(cfg: Config, json_salida: bool = True) -> LLM:
-    import logging
-
-    from google import genai
-    from google.genai import types
-
-    # Aviso ruidoso e irrelevante del SDK sobre "automatic function calling".
-    logging.getLogger("google_genai.models").setLevel(logging.ERROR)
-
-    if not cfg.api_key:
-        raise RuntimeError("Falta GOOGLE_API_KEY en .env")
-    cliente = genai.Client(api_key=cfg.api_key)
-
-    def llamar(prompt: str) -> str:
-        r = cliente.models.generate_content(
-            model=cfg.llm_model,
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                temperature=cfg.temperature,
-                response_mime_type="application/json" if json_salida else "text/plain",
-            ),
-        )
-        return r.text
-
-    return llamar
