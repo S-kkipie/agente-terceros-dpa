@@ -25,6 +25,13 @@ Log = Callable[[dict], None]
 PRIORIDAD = {"alta": 0, "media": 1, "baja": 2}
 
 
+def _recortar(texto: str, n: int = 200) -> str:
+    """Recorta en el último espacio antes de n caracteres, sin partir palabras."""
+    if len(texto) <= n:
+        return texto
+    return texto[:n].rsplit(" ", 1)[0] + "…"
+
+
 async def _paso(llamar: Llamar, log: Log | None, pasos: list, agente: str, herramienta: str,
                 argumentos: dict, resumir: Callable[[Any], str]) -> Any:
     resultado = await llamar(herramienta, argumentos)
@@ -54,15 +61,20 @@ async def flujo_brecha(llamar: Llamar, categoria: str, descripcion: str = "",
             llamar, log, pasos, incidentes, "evaluate_vendor", {"proveedor_id": p["id"]},
             lambda r, n=p["nombre"]: f"{n}: riesgo {r['nivel']} ({r['puntaje']}/16)",
         )
-        sin_garantia = (p["clausula_notificacion"] != "cumple"
-                        or estado["estado"] not in ("vigente", "por_vencer"))
+        clausula_falla = p["clausula_notificacion"] != "cumple"
+        dpa_no_vigente = estado["estado"] not in ("vigente", "por_vencer")
+        sin_garantia = clausula_falla or dpa_no_vigente
         alta = sin_garantia or riesgo["nivel"] in ("alto", "crítico")
-        if sin_garantia:
+        if clausula_falla:
             accion = ("Contactar de inmediato al encargado y exigir su informe del incidente: el "
                       "contrato no garantiza la notificación (RLPDP art. 36).")
+        elif dpa_no_vigente:
+            accion = ("Contactar de inmediato al encargado y exigir su informe del incidente: el "
+                      "contrato incluye la cláusula de notificación, pero el DPA no está vigente "
+                      f"({estado['estado'].replace('_', ' ')}).")
         else:
             accion = ("Solicitar el informe del incidente en el plazo pactado en el DPA: "
-                      f"«{p['evidencia'][:120]}».")
+                      f"«{_recortar(p['evidencia'])}».")
         acciones.append({
             "proveedor": p["nombre"], "contacto": p["contacto"], "dpa": estado["estado"],
             "clausula_notificacion": p["clausula_notificacion"], "riesgo": riesgo["nivel"],
