@@ -16,3 +16,6 @@ data/terceros.db
 data/cache_ia/
 data/gasto_ia.json
 data/salidas/
+docs/entrega/*.aux
+docs/entrega/*.log
+docs/entrega/*.out

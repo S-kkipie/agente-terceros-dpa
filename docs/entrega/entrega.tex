@@ -1,0 +1,120 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[spanish,es-noshorthands]{babel}
+\usepackage[a4paper,margin=20mm]{geometry}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc}
+\usepackage[most]{tcolorbox}
+\usepackage[hidelinks]{hyperref}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+\definecolor{tinta}{HTML}{1D2330}
+\definecolor{suave}{HTML}{5D6576}
+\definecolor{acento}{HTML}{1F5F8B}
+\definecolor{guinda}{HTML}{7A1F2B}
+\definecolor{linea}{HTML}{DCD9D0}
+
+% Enlace del video: reemplazar cuando esté subido a Drive.
+\newcommand{\EnlaceVideo}{[pegar aquí el enlace del video en Drive]}
+
+\begin{document}
+\color{tinta}
+\hyphenpenalty=10000\exhyphenpenalty=10000
+
+%==================================================================== Hoja 1
+{\small\color{suave} Auditoría de Sistemas · Trabajo de Investigación Formativa\\
+Escuela Profesional de Ingeniería de Sistemas · Universidad Nacional de San Agustín de Arequipa}
+
+{\color{guinda}\rule{\linewidth}{1.2pt}}
+
+{\raggedright
+\vspace*{38mm}
+{\fontsize{30}{34}\selectfont\bfseries Agente de Terceros (DPAs)\par}
+\vspace{4mm}
+{\large\color{suave} Sistema de gestión de privacidad multiagente basado en ISO/IEC 27701:2025\par}
+
+\vspace{16mm}
+{\fontsize{24}{28}\selectfont\bfseries\color{guinda} Grupo 1\par}
+
+\vspace{10mm}
+{\large\bfseries\color{guinda} INTEGRANTES\par}
+\vspace{3mm}
+{\Large
+\begin{tabular}{@{}l@{}}
+Adrian Issac Mamani Quispe\\[3mm]
+Dylan Antonio Zúñiga Huarca\\[3mm]
+Jeferson Joao Basurco Casani
+\end{tabular}\par}
+
+\par}
+\vfill
+{\small\color{suave} Código fuente: \url{https://github.com/S-kkipie/agente-terceros-dpa}}
+
+\newpage
+%==================================================================== Hoja 2
+{\small\color{suave} Agente de Terceros (DPAs) · Grupo 1}
+
+{\color{guinda}\rule{\linewidth}{1.2pt}}
+
+\vspace{2mm}
+{\LARGE\bfseries Arquitectura\par}
+\vspace{8mm}
+
+\begin{center}
+\begin{tikzpicture}[font=\small, node distance=6mm,
+  caja/.style={draw=suave, rounded corners=3pt, align=center, minimum height=13mm, fill=white, line width=.7pt},
+  ext/.style={caja, fill=black!4, draw=black!35},
+  pri/.style={caja, fill=acento!10, draw=acento, line width=1.3pt},
+  hum/.style={caja, fill=guinda!8, draw=guinda},
+  fl/.style={-{Stealth[length=2.6mm]}, draw=suave, line width=.8pt},
+  et/.style={font=\scriptsize\color{suave}, fill=white, inner sep=1.5pt}]
+
+\node[ext, text width=46mm] (web) at (0,0) {\textbf{Interfaz web}\\ Panel del oficial de datos};
+\node[ext, text width=46mm] (orq) at (5.6,0) {\textbf{Otros agentes del PIMS}\\ Incidentes, orquestador};
+\node[hum, text width=46mm] (hitl) at (11.2,0) {\textbf{Aprobación humana}\\ Asesoría Legal / DPO};
+
+\node[pri, text width=158mm, minimum height=16mm] (ag) at (5.6,-2.6)
+  {\textbf{\large Agente de Terceros (DPAs)}\\[1mm]
+   \ttfamily\footnotesize MCP: list\_processors · check\_dpa\_status · evaluate\_vendor · processors\_in\_breach};
+
+\draw[fl] (web.south) -- node[et]{API REST} (web.south |- ag.north);
+\draw[fl] (orq.south) -- node[et]{MCP} (orq.south |- ag.north);
+\draw[fl] (hitl.south |- ag.north) -- node[et]{decisiones pendientes} (hitl.south);
+
+\node[caja, text width=46mm] (rev) at (0,-5.2) {\textbf{Revisor de contratos}\\ 13 cláusulas · citas verificadas};
+\node[caja, text width=46mm] (rie) at (5.6,-5.2) {\textbf{Evaluación de riesgo}\\ probabilidad × impacto};
+\node[caja, text width=46mm] (bd) at (11.2,-5.2) {\textbf{Base de datos}\\ proveedores · contratos · bitácora};
+\draw[fl] (rev.north |- ag.south) -- (rev.north);
+\draw[fl] (rie.north |- ag.south) -- (rie.north);
+\draw[fl] (bd.north |- ag.south) -- (bd.north);
+
+\node[ext, text width=46mm] (faiss) at (0,-7.8) {\textbf{Normas indexadas}\\ FAISS + embeddings en Ollama (local)};
+\node[ext, text width=104mm] (llm) at (8.4,-7.8) {\textbf{Modelo de lenguaje}\\ Gemini 2.5 Flash vía OpenRouter · respaldo automático (Gemini u Ollama)};
+\draw[fl] (rev) -- (faiss);
+\draw[fl] (rev.south east) -- (llm.north west);
+\end{tikzpicture}
+\end{center}
+
+\vspace{6mm}
+\small
+\begin{tabular}{@{}p{36mm}p{126mm}@{}}
+\textbf{Interfaz web} & Panel del oficial de datos: proveedores, revisión de contratos, aprobaciones, brechas, consulta normativa y bitácora.\\[1.5mm]
+\textbf{Otros agentes} & Usan las herramientas del agente por MCP; por ejemplo, el Agente de Incidentes ante una brecha.\\[1.5mm]
+\textbf{Revisor de contratos} & Contrasta cada contrato de encargo con 13 cláusulas mínimas; cada cita debe existir literal en el contrato.\\[1.5mm]
+\textbf{Evaluación de riesgo} & Datos sensibles, volumen, transferencias, subencargados, incidentes y estado del contrato.\\[1.5mm]
+\textbf{Normas indexadas} & Ley 29733, D.S. 016-2024-JUS, RGPD, Directrices 07/2020 del CEPD y cláusulas tipo (UE) 2021/915.\\[1.5mm]
+\textbf{Aprobación humana} & Todo contrato nuevo y todo cambio de subencargado queda pendiente hasta que Legal o el DPO decide.
+\end{tabular}
+
+\vfill
+\begin{tcolorbox}[colback=acento!5, colframe=acento, boxrule=1pt, arc=3pt, left=5mm, right=5mm, top=3mm, bottom=3mm]
+{\large\bfseries\color{guinda} VIDEO DEL AGENTE FUNCIONANDO}\\[2mm]
+{\large\bfseries\color{acento} \EnlaceVideo}
+\end{tcolorbox}
+
+\end{document}
